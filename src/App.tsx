@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { v1 } from 'uuid';
 import './App.css';
 import TodoList, { TaskType } from './TodoList';
 
@@ -15,18 +16,19 @@ function App() {
 
     const TodoListTitle = "What to learn now? "
 
-    let [task, deleteTask] = useState<Array<TaskType>>(
+    let [task, setTask] = useState<Array<TaskType>>(
         [
-            { id: 1, title: "HTML&CSS", isDone: false },
-            { id: 2, title: "React", isDone: true },
-            { id: 3, title: "JS&TS", isDone: false },
-            { id: 4, title: "Git", isDone: true },
+            { id: v1(), title: "HTML&CSS", isDone: false },
+            { id: v1(), title: "React", isDone: true },
+            { id: v1(), title: "JS&TS", isDone: false },
+            { id: v1(), title: "Git", isDone: true },
         ]
     )
+    // console.log("V1", task[0].id)
 
-    const removeTask = (taskId: number) => {
+    const removeTask = (taskId: string) => {
         task = task.filter(item => item.id !== taskId)
-        deleteTask(task)
+        setTask(task)
         //  setTask работает асинхронно
     }
     // ///////////////////////////////////
@@ -49,14 +51,22 @@ function App() {
     // UseState работает асинхронно
 
     //
-
+const addTask=(title:string)=>{
+    const newTask={
+        id: v1(), title: title, isDone: false 
+    }
+   
+    let newTaskArray=[ newTask, ...task]
+    setTask(newTaskArray)
+}
 
     return (
         <div className="App">
             <TodoList title={TodoListTitle}
                 task={setFiltertask()}
                 removeTask={removeTask}
-                changeTask={changeTask} />
+                changeTask={changeTask} 
+                addTask={addTask}/>
         </div>
     );
 }
