@@ -6,3 +6,23 @@
 .App > div {
   margin-right: 50px;
 }
+
+.isDone{
+  text-decoration: line-through;
+  font-weight: bold;
+}
+
+.btn-active{
+  background-color: aquamarine;
+  transform:rotate3d() ;
+ border: 2px solid aquamarine;
+ border-radius: 2px;
+}
+
+button{
+  margin-left: 10px;
+}
+
+.error{
+  border: 2px solid red;
+}

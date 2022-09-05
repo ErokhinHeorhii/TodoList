@@ -7,6 +7,8 @@ type TodoListPropsType = {
   removeTask: (taskId: string) => void;
   changeTask: (buttonName: taskFilterType) => void;
   addTask: (title: string) => void;
+  changeStatus: (taskId: string, isDone: boolean) => void
+  filter: taskFilterType
 }
 
 export type TaskType = {
@@ -19,24 +21,38 @@ const TodoList = (props: TodoListPropsType) => {
   const tasksItems = props.task.length ?
     props.task.map(item => {
       return (
-        <li key={item.id}>
-          <input type="checkbox" checked={item.isDone} />
+        <li key={item.id} className={item.isDone ? 'isDone' : ""}>
+          <input
+            type="checkbox" onChange={
+              e => props.changeStatus(item.id, e.currentTarget.checked)
+            } checked={item.isDone} />
+
           <span>{item.title}</span>
-          <button onClick={() => { props.removeTask(item.id) }}>x </button>
+          <button onClick={() => { props.removeTask(item.id) }}>x</button>
         </li>
       )
     }) :
     <div>"No task there"</div>
 
 
-  const [title, setTitle] = useState(' ')
+  const [title, setTitle] = useState<string>(' ')
+  const [error, setError] = useState<boolean>(false)
 
   const addTask = () => {
-    props.addTask(title)
+    const trimTitle = title.trim()
+    if (trimTitle) {
+      props.addTask(trimTitle)
+    } else {
+      setError(true)
+    }
+
     setTitle(' ')
   }
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if (error) {
+      setError(false)
+    }
     setTitle(e.currentTarget.value)
   }
 
@@ -50,23 +66,30 @@ const TodoList = (props: TodoListPropsType) => {
     return () => { props.changeTask(title) }
   }
 
+  const userMessage = error 
+  ?  <div style ={{color:"red"}}>Title is requared! </div>
+  : <div> Please, create this</div>
+
   return (
     <div>
       <h3>{props.title}</h3>
       <div>
-        <input value={title}
+        <input 
+          className={error ? "error" : ""}
+          value={title}
           onChange={onChangeHandler}
           onKeyDown={onKeDownHandler}
         />
         <button onClick={addTask}>+</button>
+        {userMessage}
       </div>
       <ul>
         {tasksItems}
       </ul>
       <div>
-        <button onClick={changeTaskHandler('all')}>All</button>
-        <button onClick={changeTaskHandler('active')}>Active</button>
-        <button onClick={changeTaskHandler('completed')}>Completed</button>
+        <button className={props.filter === "all" ? "btn-active" : ""} onClick={changeTaskHandler('all')}>All</button>
+        <button className={props.filter === "active" ? "btn-active" : ""} onClick={changeTaskHandler('active')}>Active</button>
+        <button className={props.filter === "completed" ? "btn-active" : ""} onClick={changeTaskHandler('completed')}>Completed</button>
       </div>
     </div>
 
