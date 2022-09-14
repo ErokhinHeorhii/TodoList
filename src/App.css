@@ -14,7 +14,6 @@
 
 .btn-active{
   background-color: aquamarine;
-  transform:rotate3d() ;
  border: 2px solid aquamarine;
  border-radius: 2px;
 }
