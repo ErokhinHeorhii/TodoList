@@ -89,7 +89,6 @@ function App() {
 
     }
 
-
     return (
         <div className="App">
             {todolists.map(item => {
@@ -115,6 +114,6 @@ function App() {
 
         </div>
     );
-}
 
+}
 export default App;
