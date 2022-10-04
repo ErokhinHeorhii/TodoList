@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from "react";
+import React, { ChangeEvent,  KeyboardEvent, useState } from "react";
 import { taskFilterType } from "./App";
 
 type TodoListPropsType = {
@@ -17,15 +17,22 @@ export type TaskType = {
   isDone: boolean;
 }
 
+
+
 const TodoList = (props: TodoListPropsType) => {
+
+  const onChangeForCheckbox =(e:ChangeEvent<HTMLInputElement>, id:string)=>{
+    let eventForCheckbox=e.currentTarget
+    props.changeStatus(id, eventForCheckbox.checked)
+  }
+
   const tasksItems = props.task.length ?
-    props.task.map(item => {
+    
+  props.task.map(item => {
       return (
         <li key={item.id} className={item.isDone ? 'isDone' : ""}>
           <input
-            type="checkbox" onChange={
-              e => props.changeStatus(item.id, e.currentTarget.checked)
-            } checked={item.isDone} />
+            type="checkbox" onChange={(e)=>onChangeForCheckbox(e,item.id)} checked={item.isDone} />
 
           <span>{item.title}</span>
           <button onClick={() => { props.removeTask(item.id) }}>x</button>
