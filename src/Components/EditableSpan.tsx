@@ -18,9 +18,16 @@ const EditableSpan = (props: EditableSpanType) => {
     props.changeTitle(title)
   }
 
+const onKeyPressHandler = (e:React.KeyboardEvent<HTMLInputElement>)=>{
+  if(e.charCode === 13){
+    props.changeTitle(title)
+    SetTitle(props.title)
+    SetEditMode(!EditMode)
+  }
+}
   return (<>
     {EditMode ?
-      <input value={title} onChange={onChangeHandler} onBlur={() => SetEditMode(!EditMode)} autoFocus />
+      <input value={title} onKeyPress={onKeyPressHandler} onChange={onChangeHandler} onBlur={() => SetEditMode(!EditMode)} autoFocus />
       : <span onDoubleClick={onDoubleClickHandler}>{title}</span>}
 
 

@@ -28,7 +28,7 @@ const AddItemForm = (props: AddItemFormType) => {
     }
     setTitle(e.currentTarget.value)
   }
-  const onKeDownHandler = (e: any) => {
+  const onKeDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       addTask()
     }
