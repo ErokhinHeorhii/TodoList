@@ -17,8 +17,6 @@ export type TaskType = {
   isDone: boolean;
 }
 
-
-
 const TodoList = (props: TodoListPropsType) => {
 
   const onChangeForCheckbox =(e:ChangeEvent<HTMLInputElement>, id:string)=>{
@@ -33,14 +31,12 @@ const TodoList = (props: TodoListPropsType) => {
         <li key={item.id} className={item.isDone ? 'isDone' : ""}>
           <input
             type="checkbox" onChange={(e)=>onChangeForCheckbox(e,item.id)} checked={item.isDone} />
-
           <span>{item.title}</span>
-          <button onClick={() => { props.removeTask(item.id) }}>x</button>
+          <button onClick={() => {props.removeTask(item.id)}}>x</button>
         </li>
       )
     }) :
     <div>"No task there"</div>
-
 
   const [title, setTitle] = useState<string>(' ')
   const [error, setError] = useState<boolean>(false)
@@ -99,7 +95,6 @@ const TodoList = (props: TodoListPropsType) => {
         <button className={props.filter === "completed" ? "btn-active" : ""} onClick={changeTaskHandler('completed')}>Completed</button>
       </div>
     </div>
-
   );
 }
 
