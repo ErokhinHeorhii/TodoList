@@ -34,7 +34,7 @@ function App() {
         setTask(task)
         //  setTask работает асинхронно
     }
-    // ///////////////////////////////////
+
     const [filter, filterTask] = useState<taskFilterType>("all")
 
     function setFiltertask() {
@@ -52,9 +52,7 @@ function App() {
         filterTask(buttonName)
     }
     // UseState работает асинхронно
-    //
     const addTask = (title: string) => {
-   
         const newTask = {
             id: v1(), title, isDone: false
         }
@@ -67,7 +65,6 @@ function App() {
         setTask(task.map(item=>item.id !== taskId ? item : {...item, isDone}))
     }
 
-    
     return (
         <div className="App">
             <TodoList title={TodoListTitle}
