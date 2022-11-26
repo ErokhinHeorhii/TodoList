@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from "react";
+import React, { ChangeEvent,  KeyboardEvent, useState } from "react";
 import { taskFilterType } from "./App";
 
 type TodoListPropsType = {
@@ -25,8 +25,15 @@ export type TodoListType = {
   filter: taskFilterType;
 }
 const TodoList = (props: TodoListPropsType) => {
+
+  const onChangeForCheckbox =(e:ChangeEvent<HTMLInputElement>, id:string)=>{
+    let eventForCheckbox=e.currentTarget
+    props.changeStatus(id, eventForCheckbox.checked)
+  }
+
   const tasksItems = props.task.length ?
-    props.task.map(item => {
+    
+  props.task.map(item => {
       return (
         <li key={item.id} className={item.isDone ? 'isDone' : ""}>
           <input
@@ -40,7 +47,6 @@ const TodoList = (props: TodoListPropsType) => {
       )
     }) :
     <div>"No task there"</div>
-
 
   const [title, setTitle] = useState<string>(' ')
   const [error, setError] = useState<boolean>(false)
@@ -104,7 +110,6 @@ const TodoList = (props: TodoListPropsType) => {
         <button className={props.filter === "completed" ? "btn-active" : ""} onClick={changeTaskHandler('completed')}>Completed</button>
       </div>
     </div>
-
   );
 }
 

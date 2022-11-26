@@ -1,15 +1,15 @@
 .App {
-  padding: 30px;
-  display: flex;
+    padding: 30px;
+    display: flex;
 }
 
 .App > div {
-  margin-right: 50px;
+    margin-right: 50px;
 }
 
-.isDone{
-  text-decoration: line-through;
-  font-weight: bold;
+.isDone {
+    text-decoration: line-through;
+    font-weight: bold;
 }
 
 .btn-active{
@@ -18,10 +18,10 @@
  border-radius: 2px;
 }
 
-button{
-  margin-left: 10px;
+button {
+    margin-left: 10px;
 }
 
-.error{
-  border: 2px solid red;
+.error {
+    border: 2px solid red;
 }
