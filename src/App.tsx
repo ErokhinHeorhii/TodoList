@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import { v1 } from 'uuid';
 import './App.css';
 import TodoList, { TaskType } from './TodoList';
 
-
-export type FilterValuesType = "all" | "active" | "completed"
+export type taskFilterType = "all" | "active" | "completed";
 
 
 // class components
@@ -13,49 +13,70 @@ function App() {
     // бывает еще интерфейс -терминал 
     // Графический интерфейс у нас в проекте (GUI)
     // GUI-> CRUD(Create, Read, Update, Delete)
+    // С + -одна функция
+    // r +++
+    // U ++!-пропорционально сложности обьекта (сколько свойств столько и функций внесения изменений)
+    // D +
 
     const TodoListTitle = "What to learn now? "
 
-    const [task, setTask] = useState<Array<TaskType>>(
+    let [task, setTask] = useState<Array<TaskType>>(
         [
-            { id: 1, title: "HTML&CSS", isDone: true },
-            { id: 2, title: "React", isDone: true },
-            { id: 3, title: "JS&TS", isDone: false },
-            { id: 4, title: "Git", isDone: true },
+            { id: v1(), title: "HTML&CSS", isDone: false },
+            { id: v1(), title: "React", isDone: true },
+            { id: v1(), title: "JS&TS", isDone: false },
+            { id: v1(), title: "Git", isDone: true },
         ]
     )
 
-    const removeTask = (taskId: number) => {
-        let taskfilter = task.filter(item => item.id !== taskId)
-        setTask(taskfilter)
-        console.log(task)
+    const removeTask = (taskId: string) => {
+        task = task.filter(item => item.id !== taskId)
+        setTask(task)
         //  setTask работает асинхронно
     }
-// ////////////////////////////////////////////////////////////////
-    
-    const [filter, setFilter] = useState<FilterValuesType>("all")
-    // UseState работает асинхронно
+    // ///////////////////////////////////
+    const [filter, filterTask] = useState<taskFilterType>("all")
 
-    function changeFilter(filter: FilterValuesType) {
-        setFilter(filter)
+    function setFiltertask() {
+        let taskForFilter = task;
+        if (filter === "active") {
+            return taskForFilter = task.filter(item => item.isDone === false)
+        }
+        if (filter === "completed") {
+            return taskForFilter = task.filter(item => item.isDone === true)
+        }
+        return taskForFilter
     }
+
+    const changeTask = (buttonName: taskFilterType) => {
+        filterTask(buttonName)
+    }
+    // UseState работает асинхронно
     //
-    const getTasksforRender = () => {
-        switch (filter) {
-            case "active":
-                return task.filter(item => !item.isDone)
-            case "completed":
-                return task.filter(item => item.isDone)
-            default:
-                return task
+    const addTask = (title: string) => {
+   
+        const newTask = {
+            id: v1(), title, isDone: false
         }
 
+        let newTaskArray = [newTask, ...task]
+        setTask(newTaskArray)
     }
 
+    const changeStatus=(taskId: string, isDone:boolean)=>{
+        setTask(task.map(item=>item.id !== taskId ? item : {...item, isDone}))
+    }
+
+    
     return (
         <div className="App">
-            <TodoList title={TodoListTitle} task={getTasksforRender()}
-                removeTask={removeTask} changeFilter={changeFilter} />
+            <TodoList title={TodoListTitle}
+                task={setFiltertask()}
+                removeTask={removeTask}
+                changeTask={changeTask}
+                addTask={addTask}
+                changeStatus={changeStatus} 
+                filter={filter}/>
         </div>
     );
 }
