@@ -12,11 +12,10 @@
     font-weight: bold;
 }
 
-.btn-active {
-    background-color: aquamarine;
-    transform: rotate3d();
-    border: 2px solid aquamarine;
-    border-radius: 2px;
+.btn-active{
+  background-color: aquamarine;
+ border: 2px solid aquamarine;
+ border-radius: 2px;
 }
 
 button {
