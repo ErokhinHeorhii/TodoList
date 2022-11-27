@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { taskFilterType } from "../App";
+import { TaskFilterType } from "../App";
 import { TodoListType } from "../TodoList";
 
 type tsarType =
@@ -74,7 +74,7 @@ export const changeTodoListTitleAC = (
 
 export const changeTodoListFilterAC = (
   todolistId2: string,
-  newFilter: taskFilterType
+  newFilter: TaskFilterType
 ) => {
   return {
     type: "CHANGE-TODOLIST-FILTER",

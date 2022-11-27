@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { taskFilterType } from "../App";
+import { TaskFilterType } from "../App";
 import { TodoListType } from "../TodoList";
 import {
   addTodoListAC,
@@ -74,7 +74,7 @@ test("correct filter of todolist should be changed",
   let todolistId1 = v1();
   let todolistId2 = v1();
 
-  let newFilter: taskFilterType = "completed";
+  let newFilter: TaskFilterType = "completed";
 
   const startState: Array<TodoListType> = [
     { id: todolistId1, title: "What to learn", filter: "all" },
