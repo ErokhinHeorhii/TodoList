@@ -1,27 +1,32 @@
-.App {
-    padding: 30px;
-    display: flex;
-}
 
-.App > div {
-    margin-right: 50px;
-}
+/*.App {*/
+/*  padding: 30px;*/
+/*  !*display: flex;*!*/
+/*}*/
+
+/*.App > div {*/
+/*  margin-right: 50px;*/
+/*}*/
+
 
 .isDone {
     text-decoration: line-through;
     font-weight: bold;
 }
 
-.btn-active{
-  background-color: aquamarine;
- border: 2px solid aquamarine;
- border-radius: 2px;
-}
+/*.btn-active{*/
+/*  background-color: aquamarine;*/
+/* border: 2px solid aquamarine;*/
+/* border-radius: 2px;*/
+/*}*/
 
-button {
-    margin-left: 10px;
-}
 
-.error {
-    border: 2px solid red;
-}
+/*button{*/
+/*  margin-left: 10px;*/
+/*}*/
+
+/*.error{*/
+/*  border: 2px solid red;*/
+/*}*/
+
+
