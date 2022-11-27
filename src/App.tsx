@@ -11,7 +11,6 @@ type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
-// class components
 function App() {
 
     // BusnessLogic
@@ -30,6 +29,8 @@ function App() {
         {id: todolistID1, title: 'What to learn', filter: 'all'},
         {id: todolistID2, title: 'What to buy', filter: 'completed'},
     ])
+
+
     let [tasks, setTasks] = useState<TasksStateType>({
         [todolistID1]: [
             {id: v1(), title: "HTML&CSS", isDone: true},
@@ -62,12 +63,12 @@ function App() {
         setTasks({...tasks, [todoListId]: tasks[todoListId].filter(item => item.id !== taskId)})
 
     }
-    // ///////////////////////////////////
     const changeTask = (todoListID: string, buttonName: TaskFilterType) => {
         // filterTask(buttonName)
+
         let todoList = todolists.find(item => item.id === todoListID)
         if (todoList) {
-            todoList.filter = buttonName
+            todoList.filter = title
             setTodolists([...todolists])
         }
     }
@@ -92,10 +93,10 @@ function App() {
                 {id: v1(), title: "Rest API2", isDone: false},
                 {id: v1(), title: "GraphQL2", isDone: false},]
         })
+
     }
 
-    const changeStatus = (todolistID: string, taskId: string, isDone: boolean) => {
-        // setTask(task.map(item=>item.id !== taskId ? item : {...item, isDone}))
+    const changeTaskStatus = (todolistID: string, taskId: string, isDone: boolean) => {
         setTasks({
             ...tasks, [todolistID]: tasks[todolistID].map(item => item.id === taskId ?
                 {...item, isDone} : item)
@@ -111,6 +112,7 @@ function App() {
 
     const changeTodoListTitle = (todoListsID: string, title: string) => {
         setTodolists(todolists.map(item => item.id === todoListsID ? {...item, title} : item))
+
     }
 
     return (
@@ -164,6 +166,7 @@ function App() {
                     </Grid>
                 </Grid>
             </Container>
+
         </div>
     );
 

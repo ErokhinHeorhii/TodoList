@@ -17,6 +17,7 @@ type TodoListPropsType = {
     deleteTodoList: (todoListID: string) => void
     changeTaskTitle: (todoListsID: string, taskId: string, title: string) => void
     changeTodoListTitle: (todoListsID: string, title: string) => void
+
 }
 
 export type TaskType = {
@@ -57,6 +58,7 @@ const TodoList = (props: TodoListPropsType) => {
 
     const addTask = (title: string) => {
         props.addTask(props.todoListID, title)
+
     }
 
     const changeTaskHandler = (title: TaskFilterType) => {
@@ -110,6 +112,7 @@ const TodoList = (props: TodoListPropsType) => {
         </div>
 
     );
+
 }
 
 export default TodoList;
