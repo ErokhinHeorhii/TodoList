@@ -7,10 +7,10 @@
 /*  margin-right: 50px;*/
 /*}*/
 
-/*.isDone{*/
-/*  text-decoration: line-through;*/
-/*  font-weight: bold;*/
-/*}*/
+.isDone{
+  text-decoration: line-through;
+  font-weight: bold;
+}
 
 /*.btn-active{*/
 /*  background-color: aquamarine;*/
