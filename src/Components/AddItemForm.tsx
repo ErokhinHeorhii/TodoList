@@ -50,7 +50,6 @@ const AddItemForm = (props: AddItemFormType) => {
             size={"small"}
             variant="outlined"
             error={!!error}
-            defaultValue="Hello World"
         />
         {/*<button onClick={addTask}>+</button>*/}
         <Button variant="outlined"

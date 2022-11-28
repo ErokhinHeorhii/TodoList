@@ -2,15 +2,16 @@ import React, {useState} from 'react';
 import {v1} from 'uuid';
 import './App.css';
 import AddItemForm from './Components/AddItemForm';
-import TodoList, {TaskType, TodoListType} from './TodoList';
+import TodoList, {TaskType, TodolistType} from './TodoList';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 
 export type TaskFilterType = "all" | "active" | "completed";
 
-type TasksStateType = {
+export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
+// class components
 function App() {
 
     // BusnessLogic
@@ -25,12 +26,10 @@ function App() {
     let todolistID1 = v1();
     let todolistID2 = v1();
 
-    let [todolists, setTodolists] = useState<Array<TodoListType>>([
+    let [todolists, setTodolists] = useState<Array<TodolistType>>([
         {id: todolistID1, title: 'What to learn', filter: 'all'},
         {id: todolistID2, title: 'What to buy', filter: 'completed'},
     ])
-
-
     let [tasks, setTasks] = useState<TasksStateType>({
         [todolistID1]: [
             {id: v1(), title: "HTML&CSS", isDone: true},
@@ -56,47 +55,47 @@ function App() {
 
     }
 
-    const removeTask = (todoListId: string, taskId: string) => {
+    const removeTask = (todolistId: string, taskId: string) => {
         // task = task.filter(item => item.id !== taskId)
         // setTask(task)
         //  setTask работает асинхронно
-        setTasks({...tasks, [todoListId]: tasks[todoListId].filter(item => item.id !== taskId)})
+        setTasks({...tasks, [todolistId]: tasks[todolistId].filter(item => item.id !== taskId)})
 
     }
-    const changeTask = (todoListID: string, buttonName: TaskFilterType) => {
+    // ///////////////////////////////////
+    const changeTask = (todolistID: string, buttonName: TaskFilterType) => {
         // filterTask(buttonName)
-
-        let todoList = todolists.find(item => item.id === todoListID)
-        if (todoList) {
-            todoList.filter = title
+        let todolist = todolists.find(item => item.id === todolistID)
+        if (todolist) {
+            todolist.filter = buttonName
             setTodolists([...todolists])
         }
     }
 
     // UseState работает асинхронно
-    const addTask = (todoListID: string, title: string) => {
+    const addTask = (todolistID: string, title: string) => {
         const newTask = {
             id: v1(), title, isDone: false
         }
         // let newTaskArray = [newTask, ...task]
         // setTask(newTaskArray)
-        setTasks({...tasks, [todoListID]: [newTask, ...tasks[todoListID]]})
+        setTasks({...tasks, [todolistID]: [newTask, ...tasks[todolistID]]})
 
     }
 
     const addTodoList = (title: string) => {
-        const newTodoListId: string = v1()
-        setTodolists([...todolists, {id: newTodoListId, title, filter: "all"}])
+        const newTodolistId: string = v1()
+        setTodolists([...todolists, {id: newTodolistId, title, filter: "all"}])
         setTasks({
-            ...tasks, [newTodoListId]: [
+            ...tasks, [newTodolistId]: [
                 {id: v1(), title: "ReactJS2", isDone: false},
                 {id: v1(), title: "Rest API2", isDone: false},
                 {id: v1(), title: "GraphQL2", isDone: false},]
         })
-
     }
 
-    const changeTaskStatus = (todolistID: string, taskId: string, isDone: boolean) => {
+    const changeStatus = (todolistID: string, taskId: string, isDone: boolean) => {
+        // setTask(task.map(item=>item.id !== taskId ? item : {...item, isDone}))
         setTasks({
             ...tasks, [todolistID]: tasks[todolistID].map(item => item.id === taskId ?
                 {...item, isDone} : item)
@@ -110,9 +109,8 @@ function App() {
         })
     }
 
-    const changeTodoListTitle = (todoListsID: string, title: string) => {
-        setTodolists(todolists.map(item => item.id === todoListsID ? {...item, title} : item))
-
+    const changeTodoListTitle = (todolistID: string, title: string) => {
+        setTodolists(todolists.map(item => item.id === todolistID ? {...item, title} : item))
     }
 
     return (
@@ -155,10 +153,10 @@ function App() {
                                               addTask={addTask}
                                               changeStatus={changeStatus}
                                               filter={item.filter}
-                                              todoListID={item.id}
-                                              deleteTodoList={deleteTodoList}
+                                              todolistID={item.id}
+                                              deleteTodolist={deleteTodoList}
                                               changeTaskTitle={changeTaskTitle}
-                                              changeTodoListTitle={changeTodoListTitle}
+                                              changeTodolistTitle={changeTodoListTitle}
                                     />
                                 </Paper>
                             </Grid>)
@@ -166,7 +164,6 @@ function App() {
                     </Grid>
                 </Grid>
             </Container>
-
         </div>
     );
 
