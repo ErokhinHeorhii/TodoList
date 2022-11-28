@@ -5,18 +5,18 @@ import EditableSpan from "./Components/EditableSpan";
 import {Button, Checkbox, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
-type TodoListPropsType = {
+type TodolistPropsType = {
     title: string;
     task: Array<TaskType>;
-    removeTask: (todoListId: string, taskId: string) => void;
-    changeTask: (todoListID: string, buttonName: TaskFilterType) => void;
-    addTask: (todoListID: string, title: string) => void;
+    removeTask: (todolistId: string, taskId: string) => void;
+    changeTask: (todolistID: string, buttonName: TaskFilterType) => void;
+    addTask: (todolistID: string, title: string) => void;
     changeStatus: (todolistID: string, taskId: string, isDone: boolean) => void
     filter: TaskFilterType
-    todoListID: string
-    deleteTodoList: (todoListID: string) => void
-    changeTaskTitle: (todoListsID: string, taskId: string, title: string) => void
-    changeTodoListTitle: (todoListsID: string, title: string) => void
+    todolistID: string
+    deleteTodolist: (todolistID: string) => void
+    changeTaskTitle: (todolistID: string, taskId: string, title: string) => void
+    changeTodolistTitle: (todolistID: string, title: string) => void
 }
 
 export type TaskType = {
@@ -24,20 +24,20 @@ export type TaskType = {
     title: string;
     isDone: boolean;
 }
-export type TodoListType = {
+export type TodolistType = {
     id: string;
     title: string;
     filter: TaskFilterType;
 }
-const TodoList = (props: TodoListPropsType) => {
+const TodoList = (props: TodolistPropsType) => {
 
     const tasksItems = props.task.length ?
         props.task.map(item => {
             const changeTaskTitle = (title: string) => {
-                props.changeTaskTitle(props.todoListID, item.id, title)
+                props.changeTaskTitle(props.todolistID, item.id, title)
             }
             const changeStatusCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
-                props.changeStatus(props.todoListID, item.id, e.currentTarget.checked)
+                props.changeStatus(props.todolistID, item.id, e.currentTarget.checked)
             }
             return (
                 <li key={item.id} className={item.isDone ? 'isDone' : ""}>
@@ -45,7 +45,7 @@ const TodoList = (props: TodoListPropsType) => {
                     <EditableSpan title={item.title} changeTitle={changeTaskTitle}/>
                     <IconButton aria-label="delete" size="small"
                                 onClick={() => {
-                                    props.removeTask(props.todoListID, item.id)
+                                    props.removeTask(props.todolistID, item.id)
                                 }}
                     >
                         <Delete fontSize="small"/>
@@ -56,20 +56,20 @@ const TodoList = (props: TodoListPropsType) => {
         : <div>"No task there"</div>
 
     const addTask = (title: string) => {
-        props.addTask(props.todoListID, title)
+        props.addTask(props.todolistID, title)
     }
 
     const changeTaskHandler = (title: TaskFilterType) => {
         return () => {
-            props.changeTask(props.todoListID, title)
+            props.changeTask(props.todolistID, title)
         }
     }
 
     const onClickHandlerForTodoList = () => {
-        props.deleteTodoList(props.todoListID)
+        props.deleteTodolist(props.todolistID)
     }
     const changeTodoListTitle = (newTitle: string) => {
-        props.changeTodoListTitle(props.todoListID, newTitle)
+        props.changeTodolistTitle(props.todolistID, newTitle)
     }
 
     return (
