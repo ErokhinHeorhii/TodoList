@@ -4,7 +4,7 @@ import AddItemForm from "./Components/AddItemForm";
 import EditableSpan from "./Components/EditableSpan";
 import {Button} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {Task} from "./TaskComponent";
+import {Task} from "./Components/TaskComponent";
 
 type TodolistPropsType = {
     title: string;

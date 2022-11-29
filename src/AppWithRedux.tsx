@@ -74,7 +74,7 @@ function App() {
         //  setTask работает асинхронно
         // setTasks({...tasks, [todolistId]: tasks[todolistId].filter(item => item.id !== taskId)})
         dispatch(removeTaskAC(todolistId,taskId))
-    },[])
+    },[dispatch])
     // ///////////////////////////////////
     const changeTask = useCallback((todolistID: string, buttonName: TaskFilterType) => {
         // filterTask(buttonName)
@@ -84,7 +84,7 @@ function App() {
         //     setTodolists([...todolists])
         // }
         dispatch(changeTodolistFilterAC(todolistID,buttonName ))
-    },[])
+    },[dispatch])
 
     // UseState работает асинхронно
     const addTask = useCallback((todolistID: string, title: string) => {
@@ -94,7 +94,7 @@ function App() {
         // setTasks({...tasks, [todolistID]: [newTask, ...tasks[todolistID]]})
         dispatch(addTaskAC(todolistID,title ))
 
-    }, [])
+    }, [dispatch])
 
     const addTodoList = useCallback((title: string) => {
         // const newTodolistId: string = v1()
@@ -107,7 +107,7 @@ function App() {
         // })
         let action =addTodolistAC(title)
         dispatch(action)
-    }, [])
+    }, [dispatch])
 
     const changeStatus = useCallback((todolistID: string, taskId: string, isDone: boolean) => {
         // setTask(task.map(item=>item.id !== taskId ? item : {...item, isDone}))
@@ -116,7 +116,7 @@ function App() {
         //         {...item, isDone} : item)
         // })
         dispatch(changeTaskStatusAC(todolistID, taskId, isDone))
-    },[])
+    },[dispatch])
 
     const changeTaskTitle = useCallback((todolistsID: string, taskId: string, title: string) => {
         // setTasks({
@@ -124,12 +124,12 @@ function App() {
         //         {...item, title} : item)
         // })
         dispatch(changeTaskTitleAC(todolistsID, taskId, title))
-    }, [])
+    }, [dispatch])
 
     const changeTodoListTitle = useCallback((todolistID: string, title: string) => {
         // setTodolists(todolists.map(item => item.id === todolistID ? {...item, title} : item))
         dispatch(changeTodolistTitleAC(todolistID,title ))
-    },[])
+    },[dispatch])
 
     return (
         <div className="App">
