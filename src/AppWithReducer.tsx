@@ -79,7 +79,7 @@ function App() {
         //     todolist.filter = buttonName
         //     setTodolists([...todolists])
         // }
-        dispatchTodolists(changeTodolistFilterAC(todolistID,buttonName ))
+        dispatchTodolists(changeTodolistFilterAC(todolistID,buttonName))
     }
 
     // UseState работает асинхронно

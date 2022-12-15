@@ -8,7 +8,7 @@ type EditableSpanType = {
 const EditableSpan = (props: EditableSpanType) => {
   const [EditMode, SetEditMode] = useState<boolean>(false)
 
-  const [title, SetTitle] = useState(props.title)
+  const [title, SetTitle] = useState<string>(props.title)
 
   const onDoubleClickHandler = () => {
     SetEditMode(!EditMode)

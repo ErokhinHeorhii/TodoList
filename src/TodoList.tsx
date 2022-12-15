@@ -30,9 +30,7 @@ export type TodolistType = {
     title: string;
     filter: TaskFilterType;
 }
-const TodoList = React.memo((props: TodolistPropsType) => {
-    console.log("TodoList")
-
+const Todolist = React.memo((props: TodolistPropsType) => {
     let taskForFilter = props.task
 
     if (props.filter === "active") {
@@ -108,5 +106,5 @@ const TodoList = React.memo((props: TodolistPropsType) => {
     );
 })
 
-export default TodoList;
+export default Todolist;
 
