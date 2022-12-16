@@ -1,18 +1,18 @@
 import {v1} from "uuid";
-import {TaskFilterType, TasksStateType} from "../App";
-import {TodolistType} from "../TodoList";
+import { TasksStateType} from "../App";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
-    removeTodolistAC,
+    removeTodolistAC, TaskFilterType, TodolistDomainType,
     todolistsReducer,
 } from "./todolists-redusers";
 import {removeTaskTodoListAC, tasksReducer} from "./tasks-redusers";
+import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
 
 let todolistId1: string
 let todolistId2: string
-let startState: Array<TodolistType>
+let startState: Array<TodolistDomainType>
 
 beforeEach(() => {
 
@@ -20,8 +20,8 @@ beforeEach(() => {
     todolistId2 = v1();
 
     startState = [
-        {id: todolistId1, title: "What to learn", filter: "all"},
-        {id: todolistId2, title: "What to buy", filter: "all"},
+        {id: todolistId1, title: "What to learn", filter: "all", addedDate: "", order:0 },
+        {id: todolistId2, title: "What to buy", filter: "all", addedDate: "", order:0 },
     ];
 })
 
@@ -74,14 +74,20 @@ test("correct filter of todolist should be changed",() => {
 test('property with todolistId should be deleted', () => {
     const startState: TasksStateType = {
         'todolistId1': [
-            {id: '1', title: 'CSS', isDone: false},
-            {id: '2', title: 'JS', isDone: true},
-            {id: '3', title: 'React', isDone: false}
+            {id: '1', title: 'CSS', todoListId:'todolistId1', startDate:"",
+                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, status:TaskStatuses.New},
+            {id: '2', title: 'JS', todoListId:'todolistId1', startDate:"",
+                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, status:TaskStatuses.Completed},
+            {id: '3', title: 'React', todoListId:'todolistId1', startDate:"",
+                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, status:TaskStatuses.New}
         ],
         'todolistId2': [
-            {id: '1', title: 'bread', isDone: false},
-            {id: '2', title: 'milk', isDone: true},
-            {id: '3', title: 'tea', isDone: false}
+            {id: '1', title: 'bread', todoListId:'todolistId2', startDate:"",
+                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, status:TaskStatuses.New},
+            {id: '2', title: 'milk', todoListId:'todolistId2', startDate:"",
+                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, status:TaskStatuses.Completed},
+            {id: '3', title: 'tea', todoListId:'todolistId2', startDate:"",
+                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, status:TaskStatuses.New}
         ]
     }
 
