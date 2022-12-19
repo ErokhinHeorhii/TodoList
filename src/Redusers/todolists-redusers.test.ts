@@ -1,10 +1,10 @@
 import {v1} from "uuid";
-import { TasksStateType} from "../App";
+import {TasksStateType} from "../App";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
-    removeTodolistAC, TaskFilterType, TodolistDomainType,
+    removeTodolistAC, setTodolistsAC, TaskFilterType, TodolistDomainType,
     todolistsReducer,
 } from "./todolists-redusers";
 import {removeTaskTodoListAC, tasksReducer} from "./tasks-redusers";
@@ -20,8 +20,8 @@ beforeEach(() => {
     todolistId2 = v1();
 
     startState = [
-        {id: todolistId1, title: "What to learn", filter: "all", addedDate: "", order:0 },
-        {id: todolistId2, title: "What to buy", filter: "all", addedDate: "", order:0 },
+        {id: todolistId1, title: "What to learn", filter: "all", addedDate: "", order: 0},
+        {id: todolistId2, title: "What to buy", filter: "all", addedDate: "", order: 0},
     ];
 })
 
@@ -38,10 +38,15 @@ test("correct todolist should be added",
 
         let newTodolistTitle = 'New Todolist'
 
-        const endState = todolistsReducer(startState, addTodolistAC(newTodolistTitle))
+        const endState = todolistsReducer(startState, addTodolistAC({
+            id: v1(),
+            addedDate: "",
+            order: 0,
+            title:  newTodolistTitle
+        }))
 
         expect(endState.length).toBe(3)
-        expect(endState[2].title).toBe(newTodolistTitle)
+        expect(endState[0].title).toBe(newTodolistTitle)
         expect(endState[2].filter).toBe("all")
     })
 
@@ -58,36 +63,96 @@ test("correct todolist should change its name", () => {
     expect(endState[1].title).toBe(newTodolistTitle);
 });
 
-test("correct filter of todolist should be changed",() => {
+test("correct filter of todolist should be changed", () => {
 
-        let newFilter: TaskFilterType = "completed";
+    let newFilter: TaskFilterType = "completed";
 
-        const endState = todolistsReducer(
-            startState,
-            changeTodolistFilterAC(todolistId2, newFilter)
-        );
+    const endState = todolistsReducer(
+        startState,
+        changeTodolistFilterAC(todolistId2, newFilter)
+    );
 
-        expect(endState[0].filter).toBe("all");
-        expect(endState[1].filter).toBe(newFilter);
-    });
+    expect(endState[0].filter).toBe("all");
+    expect(endState[1].filter).toBe(newFilter);
+});
 
 test('property with todolistId should be deleted', () => {
     const startState: TasksStateType = {
         'todolistId1': [
-            {id: '1', title: 'CSS', todoListId:'todolistId1', startDate:"",
-                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, status:TaskStatuses.New},
-            {id: '2', title: 'JS', todoListId:'todolistId1', startDate:"",
-                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, status:TaskStatuses.Completed},
-            {id: '3', title: 'React', todoListId:'todolistId1', startDate:"",
-                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, status:TaskStatuses.New}
+            {
+                id: '1',
+                title: 'CSS',
+                todoListId: 'todolistId1',
+                startDate: "",
+                order: 0,
+                addedDate: "",
+                deadline: "",
+                description: "",
+                priority: TaskPriorities.Low,
+                status: TaskStatuses.New
+            },
+            {
+                id: '2',
+                title: 'JS',
+                todoListId: 'todolistId1',
+                startDate: "",
+                order: 0,
+                addedDate: "",
+                deadline: "",
+                description: "",
+                priority: TaskPriorities.Low,
+                status: TaskStatuses.Completed
+            },
+            {
+                id: '3',
+                title: 'React',
+                todoListId: 'todolistId1',
+                startDate: "",
+                order: 0,
+                addedDate: "",
+                deadline: "",
+                description: "",
+                priority: TaskPriorities.Low,
+                status: TaskStatuses.New
+            }
         ],
         'todolistId2': [
-            {id: '1', title: 'bread', todoListId:'todolistId2', startDate:"",
-                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, status:TaskStatuses.New},
-            {id: '2', title: 'milk', todoListId:'todolistId2', startDate:"",
-                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, status:TaskStatuses.Completed},
-            {id: '3', title: 'tea', todoListId:'todolistId2', startDate:"",
-                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, status:TaskStatuses.New}
+            {
+                id: '1',
+                title: 'bread',
+                todoListId: 'todolistId2',
+                startDate: "",
+                order: 0,
+                addedDate: "",
+                deadline: "",
+                description: "",
+                priority: TaskPriorities.Low,
+                status: TaskStatuses.New
+            },
+            {
+                id: '2',
+                title: 'milk',
+                todoListId: 'todolistId2',
+                startDate: "",
+                order: 0,
+                addedDate: "",
+                deadline: "",
+                description: "",
+                priority: TaskPriorities.Low,
+                status: TaskStatuses.Completed
+            },
+            {
+                id: '3',
+                title: 'tea',
+                todoListId: 'todolistId2',
+                startDate: "",
+                order: 0,
+                addedDate: "",
+                deadline: "",
+                description: "",
+                priority: TaskPriorities.Low,
+                status: TaskStatuses.New
+            }
         ]
     }
 
@@ -100,3 +165,11 @@ test('property with todolistId should be deleted', () => {
     expect(keys.length).toBe(1)
     expect(endState['todolistId2']).not.toBeDefined()
 })
+
+test("todolist should be set", () => {
+
+    const action = setTodolistsAC(startState)
+    const endState = todolistsReducer([], action)
+
+    expect(endState.length).toBe(2);
+});

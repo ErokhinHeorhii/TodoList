@@ -1,16 +1,20 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import AddItemForm from './Components/AddItemForm';
-import TodoList  from './TodoList';
+import TodoList from './TodoList';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./Redusers/tasks-redusers";
+import {addTaskTC, deleteTaskTC, updateTaskTC} from "./Redusers/tasks-redusers";
 import {
-    addTodolistAC,
+    addTodolistTC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, removeTodolistAC, TaskFilterType, TodolistDomainType,
+    changeTodolistTitleTC,
+    deleteTodolistTC,
+    getTodolistTC,
+    TaskFilterType,
+    TodolistDomainType,
 } from "./Redusers/todolists-redusers";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./State/Store";
+import {useSelector} from "react-redux";
+import {AppRootStateType, useAppDispatch} from "./State/Store";
 import {TaskStatuses, TaskType} from "./api/todolist-api";
 
 
@@ -30,44 +34,47 @@ function App() {
     // U ++!-пропорционально сложности обьекта (сколько свойств столько и функций внесения изменений)
     // D +
 
-    const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>((state)=>state.todolists)
-    const tasks = useSelector<AppRootStateType,TasksStateType >((state)=> state.tasks)
-    const dispatch = useDispatch()
-    const deleteTodoList = (todolistID: string) => {
-        dispatch(removeTodolistAC(todolistID ))
+    const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>((state) => state.todolists)
+    const tasks = useSelector<AppRootStateType, TasksStateType>((state) => state.tasks)
+    const dispatch = useAppDispatch()
 
-    }
+    const deleteTodoList = useCallback((todolistID: string) => {
+        dispatch(deleteTodolistTC(todolistID))
+    }, [dispatch])
 
-    const removeTask = useCallback(( todolistId: string, taskId: string) => {
-        dispatch(removeTaskAC(todolistId,taskId))
-    },[dispatch])
+    const removeTask = useCallback((todolistId: string, taskId: string) => {
+        dispatch(deleteTaskTC(todolistId, taskId))
+    }, [dispatch])
 
     const changeTask = useCallback((todolistID: string, buttonName: TaskFilterType) => {
-        dispatch(changeTodolistFilterAC(todolistID,buttonName ))
-    },[dispatch])
+        dispatch(changeTodolistFilterAC(todolistID, buttonName))
+    }, [dispatch])
 
     // UseState работает асинхронно
     const addTask = useCallback((todolistID: string, title: string) => {
-        dispatch(addTaskAC(todolistID,title ))
-
+        dispatch(addTaskTC(todolistID, title))
     }, [dispatch])
 
     const addTodoList = useCallback((title: string) => {
-        let action =addTodolistAC(title)
+        let action = addTodolistTC(title)
         dispatch(action)
     }, [dispatch])
 
     const changeStatus = useCallback((todolistID: string, taskId: string, status: TaskStatuses) => {
-        dispatch(changeTaskStatusAC(todolistID, taskId, status))
-    },[dispatch])
+        dispatch(updateTaskTC(todolistID, taskId, {status}))
+    }, [dispatch])
 
     const changeTaskTitle = useCallback((todolistsID: string, taskId: string, title: string) => {
-        dispatch(changeTaskTitleAC(todolistsID, taskId, title))
+        dispatch(updateTaskTC(todolistsID, taskId, {title}))
     }, [dispatch])
 
     const changeTodoListTitle = useCallback((todolistID: string, title: string) => {
-        dispatch(changeTodolistTitleAC(todolistID,title ))
-    },[dispatch])
+        dispatch(changeTodolistTitleTC(todolistID, title))
+    }, [dispatch])
+
+    useEffect(() => {
+        dispatch(getTodolistTC())
+    }, [])
 
     return (
         <div className="App">
@@ -86,7 +93,7 @@ function App() {
                 </Toolbar>
             </AppBar>
             <Container fixed>
-                <Grid container style ={{padding:"20px"}}>
+                <Grid container style={{padding: "20px"}}>
                     <AddItemForm addItem={addTodoList}/>
                 </Grid>
                 <Grid container>

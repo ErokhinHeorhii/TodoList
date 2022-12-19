@@ -24,10 +24,16 @@
     "react-redux": "^8.0.4",
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
+    "redux-thunk": "^2.4.2",
     "styled-components": "^5.3.6",
     "typescript": "^4.8.4",
     "uuid": "^9.0.0",
     "web-vitals": "^3.0.4"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!axios)a/"
+    ]
   },
   "scripts": {
     "start": "react-scripts start",
@@ -40,7 +46,10 @@
     "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
-    "extends": "react-app",
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
     "overrides": [
       {
         "files": [
