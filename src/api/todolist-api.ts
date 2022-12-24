@@ -2,7 +2,7 @@ import axios, {AxiosResponse} from 'axios'
 
 const instance = axios.create({
     withCredentials: true,
-    baseURL:'https://social-network.samuraijs.com/api/1.1/',
+    baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     headers: {
         'API-KEY': '17057e05-a25d-4428-a5d1-0d4f4ddbdf73',
     },
@@ -11,24 +11,24 @@ const instance = axios.create({
 export const todolistAPI = {
 
     updateTodolist(todolistId: string, title: string) {
-        return  instance.put<ResponseType>(
+        return instance.put<ResponseType>(
             `todo-lists/${todolistId}`,
-            { title: title },
+            {title: title},
         )
     },
 
-    deleteTodolist(todolistId: string){
+    deleteTodolist(todolistId: string) {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}`)
     },
 
-    createTodolist( title: string) {
-        return  instance.post<ResponseType<{item:TodolistType}>>(
+    createTodolist(title: string) {
+        return instance.post<ResponseType<{ item: TodolistType }>>(
             `todo-lists/`,
-            { title: title },
+            {title: title},
         )
     },
 
-    getTodolist(){
+    getTodolist() {
         return instance.get<Array<TodolistType>>(`todo-lists`)
     },
 
@@ -55,7 +55,7 @@ export type TodolistType =
         "order": number
     }
 
-type ResponseType<T={}>={
+export type ResponseType<T = {}> = {
     data: T,
     messages: string[],
     fieldsErrors: string[],

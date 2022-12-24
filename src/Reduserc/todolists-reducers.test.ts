@@ -1,14 +1,14 @@
 import {v1} from "uuid";
-import {TasksStateType} from "../App";
 import {
-    addTodolistAC,
+    addTodolistAC, changeTodolistEntityStatusAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
     removeTodolistAC, setTodolistsAC, TaskFilterType, TodolistDomainType,
     todolistsReducer,
-} from "./todolists-redusers";
-import {removeTaskTodoListAC, tasksReducer} from "./tasks-redusers";
+} from "./todolists-reducers";
+import {removeTaskTodoListAC, tasksReducer, TasksStateType} from "./tasks-reducers";
 import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
+import {RequestStatusType} from "./app-reducer";
 
 let todolistId1: string
 let todolistId2: string
@@ -20,8 +20,8 @@ beforeEach(() => {
     todolistId2 = v1();
 
     startState = [
-        {id: todolistId1, title: "What to learn", filter: "all", addedDate: "", order: 0},
-        {id: todolistId2, title: "What to buy", filter: "all", addedDate: "", order: 0},
+        {id: todolistId1, title: "What to learn", filter: "all", addedDate: "", order: 0, entityStatus: "idle"},
+        {id: todolistId2, title: "What to buy", filter: "all", addedDate: "", order: 0, entityStatus: "idle"},
     ];
 })
 
@@ -89,7 +89,8 @@ test('property with todolistId should be deleted', () => {
                 deadline: "",
                 description: "",
                 priority: TaskPriorities.Low,
-                status: TaskStatuses.New
+                status: TaskStatuses.New,
+                entityStatus:"idle"
             },
             {
                 id: '2',
@@ -101,7 +102,8 @@ test('property with todolistId should be deleted', () => {
                 deadline: "",
                 description: "",
                 priority: TaskPriorities.Low,
-                status: TaskStatuses.Completed
+                status: TaskStatuses.Completed,
+                entityStatus:"idle"
             },
             {
                 id: '3',
@@ -113,7 +115,8 @@ test('property with todolistId should be deleted', () => {
                 deadline: "",
                 description: "",
                 priority: TaskPriorities.Low,
-                status: TaskStatuses.New
+                status: TaskStatuses.New,
+                entityStatus:"idle"
             }
         ],
         'todolistId2': [
@@ -127,7 +130,8 @@ test('property with todolistId should be deleted', () => {
                 deadline: "",
                 description: "",
                 priority: TaskPriorities.Low,
-                status: TaskStatuses.New
+                status: TaskStatuses.New,
+                entityStatus:"idle"
             },
             {
                 id: '2',
@@ -139,7 +143,8 @@ test('property with todolistId should be deleted', () => {
                 deadline: "",
                 description: "",
                 priority: TaskPriorities.Low,
-                status: TaskStatuses.Completed
+                status: TaskStatuses.Completed,
+                entityStatus:"idle"
             },
             {
                 id: '3',
@@ -151,7 +156,8 @@ test('property with todolistId should be deleted', () => {
                 deadline: "",
                 description: "",
                 priority: TaskPriorities.Low,
-                status: TaskStatuses.New
+                status: TaskStatuses.New,
+                entityStatus:"idle"
             }
         ]
     }
@@ -172,4 +178,14 @@ test("todolist should be set", () => {
     const endState = todolistsReducer([], action)
 
     expect(endState.length).toBe(2);
+});
+
+test("correct entityStatus should be changed", () => {
+
+    let newStatus: RequestStatusType = "loading";
+    let action = changeTodolistEntityStatusAC(todolistId2, newStatus)
+    const endState = todolistsReducer(startState, action);
+
+    expect(endState[0].entityStatus).toBe("idle");
+    expect(endState[1].entityStatus).toBe(newStatus);
 });

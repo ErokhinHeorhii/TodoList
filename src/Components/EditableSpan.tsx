@@ -1,19 +1,15 @@
 import React, {ChangeEvent, useState} from "react";
 import {TextField} from "@mui/material";
+import {RequestStatusType} from "../Reduserc/app-reducer";
 
 type EditableSpanType = {
-    title: string
+    value: string
     changeTitle: (newTitle: string) => void
+    entityStatus?: RequestStatusType
 }
-const EditableSpan = (props: EditableSpanType) => {
+const EditableSpan = React.memo((props: EditableSpanType) => {
     const [editMode, setEditMode] = useState<boolean>(false)
-
-    const [title, setTitle] = useState<string>(props.title)
-
-    const onDoubleClickHandler = () => {
-        setEditMode(true)
-        setTitle(props.title)
-    }
+    const [title, setTitle] = useState<string>(props.value)
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
@@ -26,21 +22,28 @@ const EditableSpan = (props: EditableSpanType) => {
         }
     }
 
+    const activateEditMode = () => {
+        setEditMode(true)
+        setTitle(props.value)
+    }
+
     const activateViewMode = () => {
         props.changeTitle(title);
         setEditMode(false);
     }
 
     return (<>
-        {editMode ?
-            <TextField value={title}
-                       onKeyPress={onKeyPressHandler}
-                       variant="outlined"
-                       onChange={onChangeHandler}
-                       onBlur={activateViewMode}
-                       size={"small"}
-                       autoFocus/>
-            : <span onDoubleClick={onDoubleClickHandler}>{title}</span>}
+        {editMode
+            ? props.entityStatus !== "loading"
+                ? <TextField value={title}
+                             onKeyPress={onKeyPressHandler}
+                             variant="outlined"
+                             onChange={onChangeHandler}
+                             onBlur={activateViewMode}
+                             size={"small"}
+                             autoFocus/>
+                : <span onDoubleClick={activateEditMode}>{props.value}</span>
+        : <span onDoubleClick={activateEditMode}>{props.value}</span>}
     </>)
-}
+})
 export default EditableSpan

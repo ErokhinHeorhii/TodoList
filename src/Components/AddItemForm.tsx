@@ -3,9 +3,10 @@ import {Button, TextField} from "@mui/material";
 
 type AddItemFormType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 
-const AddItemForm = React.memo((props: AddItemFormType) => {
+const AddItemForm = React.memo(({disabled=false,...props}: AddItemFormType) => {
     const [title, setTitle] = useState<string>(' ')
     const [error, setError] = useState<boolean>(false)
 
@@ -50,11 +51,13 @@ const AddItemForm = React.memo((props: AddItemFormType) => {
             size={"small"}
             variant="outlined"
             error={!!error}
+            disabled={disabled}
         />
         {/*<button onClick={addTask}>+</button>*/}
         <Button variant="outlined"
                 onClick={addTask}
-                style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}>
+                style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
+                disabled={disabled}>
             +
         </Button>
         {userMessage}

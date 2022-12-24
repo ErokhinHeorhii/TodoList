@@ -5,12 +5,13 @@ import AddItemForm from './Components/AddItemForm';
 import TodoList from './TodoList';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {TaskPriorities, TaskStatuses, TaskType} from "./api/todolist-api";
-import {TaskFilterType, TodolistDomainType} from "./Redusers/todolists-redusers";
+import {TaskFilterType, TodolistDomainType} from "./Reduserc/todolists-reducers";
+import {TaskDomainType, TasksStateType} from "./Reduserc/tasks-reducers";
 
 
-export type TasksStateType = {
-    [key: string]: Array<TaskType>
-}
+// export type TasksStateType = {
+//     [key: string]: Array<TaskType>
+// }
 
 // class components
 function App() {
@@ -28,21 +29,21 @@ function App() {
     let todolistID2 = v1();
 
     let [todolists, setTodolists] = useState<Array<TodolistDomainType>>([
-        {id: todolistID1, title: 'What to learn', filter: 'all', addedDate:"", order:0},
-        {id: todolistID2, title: 'What to buy', filter: 'completed', addedDate:"", order:0},
+        {id: todolistID1, title: 'What to learn', filter: 'all', addedDate:"", order:0, entityStatus: "idle"},
+        {id: todolistID2, title: 'What to buy', filter: 'completed', addedDate:"", order:0, entityStatus: "idle"},
     ])
     let [tasks, setTasks] = useState<TasksStateType>({
         [todolistID1]: [
             {id: v1(), title: "HTML&CSS", status: TaskStatuses.Completed, todoListId:todolistID1 , startDate:"",
-                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low},
+                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, entityStatus:"idle"},
             {id: v1(), title: "JS", status: TaskStatuses.Completed, todoListId:todolistID1 , startDate:"",
-                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low},
+                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, entityStatus:"idle"},
         ],
         [todolistID2]: [
             {id: v1(), title: "HTML&CSS2", status: TaskStatuses.Completed, todoListId:todolistID2 , startDate:"",
-                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low},
+                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, entityStatus:"idle"},
             {id: v1(), title: "JS2", status: TaskStatuses.Completed, todoListId:todolistID2 , startDate:"",
-                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low},
+                order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, entityStatus:"idle"},
         ]
     });
     const deleteTodoList = (todolistID: string) => {
@@ -69,22 +70,22 @@ function App() {
     }
     // UseState работает асинхронно
     const addTask = (todolistID: string, title: string) => {
-        const newTask = {
+        const newTask: TaskDomainType = {
             id: v1(), title, status: TaskStatuses.New, todoListId:todolistID , startDate:"",
-            order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low
+            order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low, entityStatus:"idle"
         }
         setTasks({...tasks, [todolistID]: [newTask, ...tasks[todolistID]]})
     }
 
     const addTodoList = (title: string) => {
         const newTodolistId: string = v1()
-        setTodolists([...todolists, {id: newTodolistId, title:title, order:0, addedDate:"", filter: "all" }])
+        setTodolists([...todolists, {id: newTodolistId, title:title, order:0, addedDate:"", filter: "all", entityStatus: "idle" }])
         setTasks({
             ...tasks, [newTodolistId]: [
                 {id: v1(), title: "Html", status: TaskStatuses.New, todoListId:newTodolistId , startDate:"",
-                    order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low},
+                    order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low,entityStatus:"idle" },
                 {id: v1(), title: "Css", status: TaskStatuses.New, todoListId:newTodolistId , startDate:"",
-                    order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low}]
+                    order:0, addedDate:"", deadline:"", description:"", priority: TaskPriorities.Low,entityStatus:"idle"}]
         })
     }
 
@@ -139,15 +140,17 @@ function App() {
                             }
                             return (<Grid item>
                                 <Paper style={{padding: "15px"}}>
-                                    <TodoList title={item.title}
+                                    <TodoList
+                                        todolist={item}
+                                        // title={item.title}
                                               key={item.id}
                                               task={taskForFilter}
                                               removeTask={removeTask}
                                               changeTask={changeTask}
                                               addTask={addTask}
                                               changeStatus={changeStatus}
-                                              filter={item.filter}
-                                              todolistID={item.id}
+                                              // filter={item.filter}
+                                              // todolistID={item.id}
                                               deleteTodolist={deleteTodoList}
                                               changeTaskTitle={changeTaskTitle}
                                               changeTodolistTitle={changeTodoListTitle}

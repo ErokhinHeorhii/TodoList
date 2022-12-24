@@ -3,9 +3,10 @@ import {Checkbox, IconButton} from "@mui/material";
 import EditableSpan from "./EditableSpan";
 import {Delete} from "@mui/icons-material";
 import {TaskStatuses, TaskType} from "../api/todolist-api";
+import {TaskDomainType} from "../Reduserc/tasks-reducers";
 
 type TaskComponentType={
-    itemTask:TaskType
+     itemTask:TaskDomainType
      todolistID:string
      removeTask:(taskId: string, todolistId: string) => void
      changeTaskStatus: ( todolistId: string, id: string, status: TaskStatuses) => void
@@ -24,14 +25,20 @@ export const Task= React.memo((props:TaskComponentType)=>{
 
     const removeTaskHandler =()=>{
         props.removeTask(props.todolistID, props.itemTask.id)
+        console.log(props.itemTask.entityStatus)
     }
 
     return (
         <li key={props.itemTask.id} className={props.itemTask.status === TaskStatuses.Completed ? 'isDone' : ""}>
-            <Checkbox color='primary' onChange={changeStatusCheckbox} checked={props.itemTask.status === TaskStatuses.Completed}/>
-            <EditableSpan title={props.itemTask.title} changeTitle={changeTaskTitle}/>
+            <Checkbox color='primary'
+                      onChange={changeStatusCheckbox}
+                      checked={props.itemTask.status === TaskStatuses.Completed}
+                      disabled={props.itemTask.entityStatus === "loading"}
+            />
+            <EditableSpan value={props.itemTask.title} changeTitle={changeTaskTitle} entityStatus={props.itemTask.entityStatus}/>
             <IconButton aria-label="delete" size="small"
-                        onClick={removeTaskHandler}>
+                        onClick={removeTaskHandler}
+                        disabled={props.itemTask.entityStatus === "loading"}>
                 <Delete fontSize="small"/>
             </IconButton>
         </li>
