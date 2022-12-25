@@ -1,7 +1,5 @@
 import {setAppErrorAC, setAppStatusAC} from "../Reduserc/app-reducer";
 import {ResponseType} from "../api/todolist-api"
-import {ThunkDispatch} from "redux-thunk";
-import {Dispatch} from "redux";
 import {AppDispatch} from "../State/Store";
 
 

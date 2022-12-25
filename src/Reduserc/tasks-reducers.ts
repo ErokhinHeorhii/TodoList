@@ -3,9 +3,8 @@ import {
     SetTodolistsActionType,
 } from "./todolists-reducers";
 import {TaskPriorities, TaskStatuses, TaskType, todolistAPI, UpdateTaskModelType} from "../api/todolist-api";
-import {AppDispatch, AppRootStateType, AppThunk} from "../State/Store";
-import {RequestStatusType, setAppErrorAC, setAppStatusAC, SetStatusACType} from "./app-reducer";
-import {ThunkDispatch} from "redux-thunk";
+import {AppDispatch, AppRootStateType} from "../State/Store";
+import {RequestStatusType, setAppStatusAC} from "./app-reducer";
 import {hadleServerAppError, hadleServerNetworkError} from "../utils/error-utils";
 
 export type SetTasksActionType = {
@@ -46,28 +45,7 @@ export type TasksStateType = {
 export type TaskDomainType = TaskType
     & { entityStatus: RequestStatusType }
 
-const initialState: TasksStateType = {
-    // [todolistId1]: [
-    //     {
-    //         id: v1(), title: "HTML&CSS", status: TaskStatuses.Completed, todoListId: todolistId1, startDate: "",
-    //         order: 0, addedDate: "", deadline: "", description: "", priority: TaskPriorities.Low
-    //     },
-    //     {
-    //         id: v1(), title: "JS", status: TaskStatuses.Completed, todoListId: todolistId1, startDate: "",
-    //         order: 0, addedDate: "", deadline: "", description: "", priority: TaskPriorities.Low
-    //     },
-    // ],
-    // [todolistId2]: [
-    //     {
-    //         id: v1(), title: "Milk", status: TaskStatuses.Completed, todoListId: todolistId2, startDate: "",
-    //         order: 0, addedDate: "", deadline: "", description: "", priority: TaskPriorities.Low
-    //     },
-    //     {
-    //         id: v1(), title: "React Book", status: TaskStatuses.Completed, todoListId: todolistId2, startDate: "",
-    //         order: 0, addedDate: "", deadline: "", description: "", priority: TaskPriorities.Low
-    //     },
-    // ],
-};
+const initialState: TasksStateType = {};
 
 export enum ResultStatus {
     OK = 0,
@@ -227,7 +205,9 @@ export const getTaskTC = (todolistId: string) => (dispatch: AppDispatch) => {
             const tasks = res.data.items.map(item => ({...item, entityStatus: "igle" as RequestStatusType}))
             dispatch(setTaskAC(tasks, todolistId))
             dispatch(setAppStatusAC("succeeded"))
-        })
+        }).catch((error)=>{
+        hadleServerNetworkError(error, dispatch)
+    })
 }
 
 export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: AppDispatch) => {

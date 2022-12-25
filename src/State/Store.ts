@@ -5,12 +5,15 @@ import { legacy_createStore} from 'redux'
 import thunkMiddleware, {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {appReducer} from "../Reduserc/app-reducer";
+import {authReducer} from "../Reduserc/auth-reducers";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
     todolists: todolistsReducer,
-    app:appReducer
+    app:appReducer,
+    auth: authReducer
 })
+
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunkMiddleware))
 export type AppRootStateType = ReturnType<typeof rootReducer>

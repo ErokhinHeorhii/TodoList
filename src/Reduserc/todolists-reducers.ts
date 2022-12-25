@@ -143,9 +143,10 @@ export const getTodolistTC = (): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC("loading"))
     const promise = todolistAPI.getTodolist()
     promise.then((res) => {
-
         dispatch(setTodolistsAC(res.data))
         dispatch(setAppStatusAC("succeeded"))
+    }).catch((error)=>{
+        hadleServerNetworkError(error, dispatch)
     })
 }
 
