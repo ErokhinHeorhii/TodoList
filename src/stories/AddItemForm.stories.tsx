@@ -10,6 +10,7 @@ import AddItemForm from '../Components/AddItemForm';
 
 type AddItemForm = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -71,4 +72,10 @@ export const TemplateWithError = TemplateError.bind({});
 export const AddItemFormStory = Template.bind({});
 AddItemFormStory.args = {
     addItem: action("Button clicked incide form")
+}
+
+export const AddItemFormDisabled = Template.bind({});
+AddItemFormDisabled.args = {
+    addItem: action("Button clicked incide form"),
+    disabled:true
 }

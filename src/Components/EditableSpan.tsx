@@ -1,43 +1,49 @@
-import React, { ChangeEvent, useState } from "react";
+import React, {ChangeEvent, useState} from "react";
 import {TextField} from "@mui/material";
+import {RequestStatusType} from "../Reduserc/app-reducer";
 
 type EditableSpanType = {
-  title: string
-  changeTitle: (newTitle: string) => void
+    value: string
+    changeTitle: (newTitle: string) => void
+    entityStatus?: RequestStatusType
 }
-const EditableSpan = (props: EditableSpanType) => {
-  const [EditMode, SetEditMode] = useState<boolean>(false)
+const EditableSpan = React.memo((props: EditableSpanType) => {
+    const [editMode, setEditMode] = useState<boolean>(false)
+    const [title, setTitle] = useState<string>(props.value)
 
-  const [title, SetTitle] = useState(props.title)
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.currentTarget.value)
+    }
 
-  const onDoubleClickHandler = () => {
-    SetEditMode(!EditMode)
-    SetTitle(props.title)
-  }
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    SetTitle(e.currentTarget.value)
-    props.changeTitle(title)
-  }
+    const onKeyPressHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            props.changeTitle(title)
+            setEditMode(false)
+        }
+    }
 
-const onKeyPressHandler = (e:React.KeyboardEvent<HTMLInputElement>)=>{
-  if(e.charCode === 13){
-    props.changeTitle(title)
-    SetTitle(props.title)
-    SetEditMode(!EditMode)
-  }
-}
-  return (<>
-    {EditMode ?
-        <TextField  value={title}
-                    onKeyPress={onKeyPressHandler}
-                    variant="outlined"
-                    onChange={onChangeHandler}
-                    onBlur={() => SetEditMode(!EditMode)}
-                    size={"small"}
-                    autoFocus/>
-      : <span onDoubleClick={onDoubleClickHandler}>{title}</span>}
+    const activateEditMode = () => {
+        setEditMode(true)
+        setTitle(props.value)
+    }
 
+    const activateViewMode = () => {
+        props.changeTitle(title);
+        setEditMode(false);
+    }
 
-  </>)
-}
+    return (<>
+        {editMode
+            ? props.entityStatus !== "loading"
+                ? <TextField value={title}
+                             onKeyPress={onKeyPressHandler}
+                             variant="outlined"
+                             onChange={onChangeHandler}
+                             onBlur={activateViewMode}
+                             size={"small"}
+                             autoFocus/>
+                : <span onDoubleClick={activateEditMode}>{props.value}</span>
+        : <span onDoubleClick={activateEditMode}>{props.value}</span>}
+    </>)
+})
 export default EditableSpan

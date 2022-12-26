@@ -17,16 +17,26 @@
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "@types/react-redux": "^7.1.24",
+    "@types/react-router-dom": "^5.3.3",
     "@types/uuid": "^8.3.4",
+    "axios": "^1.2.1",
+    "formik": "^2.2.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.4",
+    "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
+    "redux-thunk": "^2.4.2",
     "styled-components": "^5.3.6",
     "typescript": "^4.8.4",
     "uuid": "^9.0.0",
     "web-vitals": "^3.0.4"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!axios)a/"
+    ]
   },
   "scripts": {
     "start": "react-scripts start",
@@ -35,11 +45,14 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "storybook": "start-storybook -p 6006 -s public",
+    "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
-    "extends": "react-app",
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
     "overrides": [
       {
         "files": [
