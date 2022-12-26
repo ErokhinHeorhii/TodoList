@@ -1,22 +1,13 @@
 {
   "files": {
-    "main.css": "/TodoList/static/css/main.ac7fd267.chunk.css",
-    "main.js": "/TodoList/static/js/main.07c0b92a.chunk.js",
-    "main.js.map": "/TodoList/static/js/main.07c0b92a.chunk.js.map",
-    "runtime-main.js": "/TodoList/static/js/runtime-main.0ff14eb0.js",
-    "runtime-main.js.map": "/TodoList/static/js/runtime-main.0ff14eb0.js.map",
-    "static/js/2.d32c6821.chunk.js": "/TodoList/static/js/2.d32c6821.chunk.js",
-    "static/js/2.d32c6821.chunk.js.map": "/TodoList/static/js/2.d32c6821.chunk.js.map",
+    "main.css": "/TodoList/static/css/main.10c079ed.css",
+    "main.js": "/TodoList/static/js/main.caec5bed.js",
     "index.html": "/TodoList/index.html",
-    "precache-manifest.1337de4ab85d0d7dec54f66a52ab9236.js": "/TodoList/precache-manifest.1337de4ab85d0d7dec54f66a52ab9236.js",
-    "service-worker.js": "/TodoList/service-worker.js",
-    "static/css/main.ac7fd267.chunk.css.map": "/TodoList/static/css/main.ac7fd267.chunk.css.map",
-    "static/js/2.d32c6821.chunk.js.LICENSE.txt": "/TodoList/static/js/2.d32c6821.chunk.js.LICENSE.txt"
+    "main.10c079ed.css.map": "/TodoList/static/css/main.10c079ed.css.map",
+    "main.caec5bed.js.map": "/TodoList/static/js/main.caec5bed.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.0ff14eb0.js",
-    "static/js/2.d32c6821.chunk.js",
-    "static/css/main.ac7fd267.chunk.css",
-    "static/js/main.07c0b92a.chunk.js"
+    "static/css/main.10c079ed.css",
+    "static/js/main.caec5bed.js"
   ]
 }
