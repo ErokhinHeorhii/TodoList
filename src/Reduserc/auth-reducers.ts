@@ -1,39 +1,44 @@
 import {Dispatch} from "redux";
-import {setAppStatusAC, SetErrorACType, SetStatusACType} from "./app-reducer";
+import {setAppStatusAC} from "./app-reducer";
 import {hadleServerAppError, hadleServerNetworkError} from "../utils/error-utils";
 import {authApi, LoginParamsType} from "../api/todolist-api";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState = {
     isLoggedIn: false
 }
-type InitialStateType = typeof initialState
-
- export type SetIsLoggedInACType = ReturnType<typeof setIsLoggedInAC>
-
-type ActionsType =
-    SetIsLoggedInACType
-    | SetStatusACType
-    | SetErrorACType
-
-export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
-    switch (action.type) {
-        case 'login/SET-IS-LOGGED-IN':
-            return {...state, isLoggedIn: action.value}
-        default:
-            return state
+const slice = createSlice({
+    name: "auth",
+    initialState: initialState,
+    reducers: {
+        setIsLoggedInAC(state, action: PayloadAction<{value:boolean}>) {
+            state.isLoggedIn = action.payload.value
+            // {...state, isLoggedIn: action.value}
+        }
     }
-}
+})
 
-export const setIsLoggedInAC = (value: boolean) =>
-    ({type: 'login/SET-IS-LOGGED-IN', value} as const)
+export const {setIsLoggedInAC} = slice.actions
+export const authReducer = slice.reducer;
+//     (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+//     switch (action.type) {
+//         case 'login/SET-IS-LOGGED-IN':
+//             return {...state, isLoggedIn: action.value}
+//         default:
+//             return state
+//     }
+// }
 
-export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatusAC('loading'))
+// export const setIsLoggedInAC = (value: boolean) =>
+//     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
+
+export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC({status:"loading"}))
     authApi.login(data)
         .then(res => {
             if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedInAC(true))
-                dispatch(setAppStatusAC("succeeded"))
+                dispatch(setIsLoggedInAC({value:true}))
+                dispatch(setAppStatusAC({status:"succeeded"}))
             } else {
                 hadleServerAppError(res.data, dispatch);
             }
@@ -43,13 +48,13 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionsTyp
         })
 }
 
-export const logoutTC = () => (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatusAC('loading'))
+export const logoutTC = () => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC({status:"loading"}))
     authApi.logout()
         .then(res => {
             if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedInAC(false))
-                dispatch(setAppStatusAC('succeeded'))
+                dispatch(setIsLoggedInAC({value:false}))
+                dispatch(setAppStatusAC({status:"succeeded"}))
             } else {
                 hadleServerAppError(res.data, dispatch)
             }
@@ -58,3 +63,12 @@ export const logoutTC = () => (dispatch: Dispatch<ActionsType>) => {
             hadleServerNetworkError(error, dispatch)
         })
 }
+
+// type InitialStateType = typeof initialState
+
+// export type SetIsLoggedInACType = ReturnType<typeof setIsLoggedInAC>
+//
+// type ActionsType =
+//     SetIsLoggedInACType
+//     | SetStatusACType
+//     | SetErrorACType

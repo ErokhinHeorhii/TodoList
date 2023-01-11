@@ -140,24 +140,24 @@ export const setTodolistsAC = (
 
 
 export const getTodolistTC = (): AppThunk => (dispatch) => {
-    dispatch(setAppStatusAC("loading"))
+    dispatch(setAppStatusAC({status: "loading"}))
     const promise = todolistAPI.getTodolist()
     promise.then((res) => {
         dispatch(setTodolistsAC(res.data))
-        dispatch(setAppStatusAC("succeeded"))
+        dispatch(setAppStatusAC({status: "succeeded"}))
     }).catch((error)=>{
         hadleServerNetworkError(error, dispatch)
     })
 }
 
 export const deleteTodolistTC = (todolistId: string) => (dispatch: Dispatch) => {
-    dispatch(setAppStatusAC("loading"))
+    dispatch(setAppStatusAC({status: "loading"}))
     dispatch(changeTodolistEntityStatusAC(todolistId, "loading"))
     const promise = todolistAPI.deleteTodolist(todolistId)
     promise.then((res) => {
         if (res.data.resultCode === 0) {
             dispatch(removeTodolistAC(todolistId))
-            dispatch(setAppStatusAC("succeeded"))
+            dispatch(setAppStatusAC({status: "succeeded"}))
             dispatch(changeTodolistEntityStatusAC(todolistId, "succeeded"))
         } else {
             hadleServerAppError(res.data, dispatch)
@@ -169,12 +169,12 @@ export const deleteTodolistTC = (todolistId: string) => (dispatch: Dispatch) => 
 }
 
 export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
-    dispatch(setAppStatusAC("loading"))
+    dispatch(setAppStatusAC({status: "loading"}))
     const promise = todolistAPI.createTodolist(title)
     promise.then((res) => {
         if (res.data.resultCode === 0) {
             dispatch(addTodolistAC(res.data.data.item))
-            dispatch(setAppStatusAC("succeeded"))
+            dispatch(setAppStatusAC({status: "succeeded"}))
         } else {
             hadleServerAppError(res.data, dispatch)
         }
@@ -184,12 +184,12 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
 }
 
 export const changeTodolistTitleTC = (id: string, title: string) => (dispatch: AppDispatch) => {
-    dispatch(setAppStatusAC("loading"))
+    dispatch(setAppStatusAC({status: "loading"}))
     const promise = todolistAPI.updateTodolist(id, title)
     promise.then((res) => {
         if (res.data.resultCode === 0) {
             dispatch(changeTodolistTitleAC(id, title))
-            dispatch(setAppStatusAC("succeeded"))
+            dispatch(setAppStatusAC({status: "succeeded"}))
         } else {
             hadleServerAppError(res.data, dispatch)
         }

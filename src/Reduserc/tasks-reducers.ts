@@ -199,25 +199,25 @@ export const changeTaskEntityStatusAC = (todolistId: string, tasksId: string, en
 }
 
 export const getTaskTC = (todolistId: string) => (dispatch: AppDispatch) => {
-    dispatch(setAppStatusAC("loading"))
+    dispatch(setAppStatusAC({status: "loading"}))
     todolistAPI.getTasks(todolistId)
         .then((res) => {
             const tasks = res.data.items.map(item => ({...item, entityStatus: "igle" as RequestStatusType}))
             dispatch(setTaskAC(tasks, todolistId))
-            dispatch(setAppStatusAC("succeeded"))
+            dispatch(setAppStatusAC({status: "succeeded"}))
         }).catch((error)=>{
         hadleServerNetworkError(error, dispatch)
     })
 }
 
 export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: AppDispatch) => {
-    dispatch(setAppStatusAC("loading"))
+    dispatch(setAppStatusAC({status: "loading"}))
     dispatch(changeTaskEntityStatusAC(todolistId,taskId, "loading" ))
     todolistAPI.deleteTask(todolistId, taskId)
         .then(res => {
             if (res.data.resultCode === ResultStatus.OK) {
                 dispatch(removeTaskAC(todolistId, taskId))
-                dispatch(setAppStatusAC("succeeded"))
+                dispatch(setAppStatusAC({status: "succeeded"}))
                 dispatch(changeTaskEntityStatusAC(todolistId,taskId, "succeeded"))
             } else {
                 hadleServerAppError(res.data, dispatch)
@@ -230,13 +230,13 @@ export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: A
 }
 
 export const addTaskTC = (todoListId: string, title: string) => (dispatch: AppDispatch) => {
-    dispatch(setAppStatusAC("loading"))
+    dispatch(setAppStatusAC({status: "loading"}))
     todolistAPI.createTask(todoListId, title)
         .then((res) => {
             if (res.data.resultCode === ResultStatus.OK) {
                 const task = res.data.data.item
                 dispatch(addTaskAC({...task, entityStatus: "idle"}))
-                dispatch(setAppStatusAC("succeeded"))
+                dispatch(setAppStatusAC({status: "succeeded"}))
             } else {
                 hadleServerAppError(res.data, dispatch)
             }
@@ -260,12 +260,12 @@ export const updateTaskTC = (todolistId: string, taskId: string, domainModel: Up
                 ...domainModel
             }
 
-            dispatch(setAppStatusAC("loading"))
+            dispatch(setAppStatusAC({status: "loading"}))
             todolistAPI.updateTask(todolistId, taskId, apiModel)
                 .then((res) => {
                     if (res.data.resultCode === ResultStatus.OK) {
                         dispatch(updateTaskAC(todolistId, taskId, domainModel))
-                        dispatch(setAppStatusAC("succeeded"))
+                        dispatch(setAppStatusAC({status: "succeeded"}))
                     } else {
                         hadleServerAppError(res.data, dispatch)
                     }
