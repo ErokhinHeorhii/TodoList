@@ -5,14 +5,14 @@ import {AppDispatch} from "../State/Store";
 
 export const hadleServerAppError=<T>(data:ResponseType<T>, dispatch:AppDispatch)=>{
     if (data.messages.length) {
-        dispatch(setAppErrorAC(data.messages[0]))
+        dispatch(setAppErrorAC({error:data.messages[0]}))
     } else {
-        dispatch(setAppErrorAC("some error added"))
+        dispatch(setAppErrorAC({error:"some error added"}))
     }
-    dispatch(setAppStatusAC("failed"))
+    dispatch(setAppStatusAC({status: "failed"}))
   }
 
   export const hadleServerNetworkError=(error: { message:string}, dispatch:AppDispatch)=>{
-      dispatch(setAppErrorAC(error.message ? error.message : "some error occurred"))
-      dispatch(setAppStatusAC("failed"))
+      dispatch(setAppErrorAC({error: error.message ? error.message : "some error occurred"}))
+      dispatch(setAppStatusAC({status: "failed"}))
   }
