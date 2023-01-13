@@ -6,6 +6,7 @@ import {
     removeTodolistAC, setTodolistsAC, TaskFilterType, TodolistDomainType,
     todolistsReducer,
 } from "./todolists-reducers";
+//@ts-ignore
 import {removeTaskTodoListAC, tasksReducer, TasksStateType} from "./tasks-reducers";
 import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
 import {RequestStatusType} from "./app-reducer";
@@ -27,7 +28,7 @@ beforeEach(() => {
 
 test("correct todolist should be removed", () => {
 
-    const endState = todolistsReducer(startState, removeTodolistAC(todolistId1));
+    const endState = todolistsReducer(startState, removeTodolistAC({todolistId:todolistId1}));
 
     expect(endState.length).toBe(1);
     expect(endState[0].id).toBe(todolistId2);
@@ -38,12 +39,12 @@ test("correct todolist should be added",
 
         let newTodolistTitle = 'New Todolist'
 
-        const endState = todolistsReducer(startState, addTodolistAC({
+        const endState = todolistsReducer(startState, addTodolistAC({todolist:{
             id: v1(),
             addedDate: "",
             order: 0,
             title:  newTodolistTitle
-        }))
+        }}))
 
         expect(endState.length).toBe(3)
         expect(endState[0].title).toBe(newTodolistTitle)
@@ -56,7 +57,7 @@ test("correct todolist should change its name", () => {
 
     const endState = todolistsReducer(
         startState,
-        changeTodolistTitleAC(todolistId2, newTodolistTitle)
+        changeTodolistTitleAC({todolistId2:todolistId2,newTodolistTitle: newTodolistTitle})
     );
 
     expect(endState[0].title).toBe("What to learn");
@@ -69,7 +70,7 @@ test("correct filter of todolist should be changed", () => {
 
     const endState = todolistsReducer(
         startState,
-        changeTodolistFilterAC(todolistId2, newFilter)
+        changeTodolistFilterAC({todolistId2:todolistId2,newFilter: newFilter})
     );
 
     expect(endState[0].filter).toBe("all");
@@ -162,7 +163,7 @@ test('property with todolistId should be deleted', () => {
         ]
     }
 
-    const action = removeTaskTodoListAC('todolistId2')
+    const action = removeTaskTodoListAC({todolistId:'todolistId2'})
 
     const endState = tasksReducer(startState, action)
 
@@ -174,7 +175,7 @@ test('property with todolistId should be deleted', () => {
 
 test("todolist should be set", () => {
 
-    const action = setTodolistsAC(startState)
+    const action = setTodolistsAC({todolists:startState})
     const endState = todolistsReducer([], action)
 
     expect(endState.length).toBe(2);
@@ -183,7 +184,7 @@ test("todolist should be set", () => {
 test("correct entityStatus should be changed", () => {
 
     let newStatus: RequestStatusType = "loading";
-    let action = changeTodolistEntityStatusAC(todolistId2, newStatus)
+    let action = changeTodolistEntityStatusAC({id:todolistId2,status: newStatus})
     const endState = todolistsReducer(startState, action);
 
     expect(endState[0].entityStatus).toBe("idle");

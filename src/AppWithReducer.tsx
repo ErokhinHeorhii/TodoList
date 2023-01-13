@@ -42,22 +42,58 @@ function App() {
     let [tasks, dispatchTasks] = useReducer(tasksReducer, {
         [todolistID1]: [
             {
-                id: v1(), title: "HTML&CSS", status: TaskStatuses.New, todoListId: todolistID1, startDate: "",
-                order: 0, addedDate: "", deadline: "", description: "", priority: TaskPriorities.Low, entityStatus: "idle"
+                id: v1(),
+                title: "HTML&CSS",
+                status: TaskStatuses.New,
+                todoListId: todolistID1,
+                startDate: "",
+                order: 0,
+                addedDate: "",
+                deadline: "",
+                description: "",
+                priority: TaskPriorities.Low,
+                entityStatus: "idle"
             },
             {
-                id: v1(), title: "JS", status: TaskStatuses.New, todoListId: todolistID1, startDate: "",
-                order: 0, addedDate: "", deadline: "", description: "", priority: TaskPriorities.Low, entityStatus: "idle"
+                id: v1(),
+                title: "JS",
+                status: TaskStatuses.New,
+                todoListId: todolistID1,
+                startDate: "",
+                order: 0,
+                addedDate: "",
+                deadline: "",
+                description: "",
+                priority: TaskPriorities.Low,
+                entityStatus: "idle"
             },
         ],
         [todolistID2]: [
             {
-                id: v1(), title: "HTML&CSS2", status: TaskStatuses.New, todoListId: todolistID2, startDate: "",
-                order: 0, addedDate: "", deadline: "", description: "", priority: TaskPriorities.Low, entityStatus: "idle"
+                id: v1(),
+                title: "HTML&CSS2",
+                status: TaskStatuses.New,
+                todoListId: todolistID2,
+                startDate: "",
+                order: 0,
+                addedDate: "",
+                deadline: "",
+                description: "",
+                priority: TaskPriorities.Low,
+                entityStatus: "idle"
             },
             {
-                id: v1(), title: "JS2", status: TaskStatuses.New, todoListId: todolistID2, startDate: "",
-                order: 0, addedDate: "", deadline: "", description: "", priority: TaskPriorities.Low, entityStatus: "idle"
+                id: v1(),
+                title: "JS2",
+                status: TaskStatuses.New,
+                todoListId: todolistID2,
+                startDate: "",
+                order: 0,
+                addedDate: "",
+                deadline: "",
+                description: "",
+                priority: TaskPriorities.Low,
+                entityStatus: "idle"
             },
         ]
     });
@@ -67,8 +103,7 @@ function App() {
         //
         // delete tasks[todolistID]
         // console.log("after t", tasks)
-        dispatchTodolists(removeTodolistAC(todolistID))
-
+        dispatchTodolists(removeTodolistAC({todolistId: todolistID}))
     }
 
     const removeTask = (todolistId: string, taskId: string) => {
@@ -76,7 +111,7 @@ function App() {
         // setTask(task)
         //  setTask работает асинхронно
         // setTasks({...tasks, [todolistId]: tasks[todolistId].filter(item => item.id !== taskId)})
-        dispatchTasks(removeTaskAC(todolistId, taskId))
+        dispatchTasks(removeTaskAC({todolistId, taskId}))
     }
     // ///////////////////////////////////
     const changeTask = (todolistID: string, buttonName: TaskFilterType) => {
@@ -86,7 +121,7 @@ function App() {
         //     todolist.filter = buttonName
         //     setTodolists([...todolists])
         // }
-        dispatchTodolists(changeTodolistFilterAC(todolistID, buttonName))
+        dispatchTodolists(changeTodolistFilterAC({todolistId2: todolistID, newFilter: buttonName}))
     }
 
     // UseState работает асинхронно
@@ -96,17 +131,19 @@ function App() {
         // }
         // setTasks({...tasks, [todolistID]: [newTask, ...tasks[todolistID]]})
         dispatchTasks(addTaskAC({
-            description: "string",
-            title: "string",
-            status: TaskStatuses.New,
-            priority: TaskPriorities.Low,
-            startDate: "string",
-            deadline: "string",
-            id: "string",
-            todoListId: "string",
-            order: 0,
-            addedDate: "string",
-            entityStatus: "idle"
+            task: {
+                description: "string",
+                title: "string",
+                status: TaskStatuses.New,
+                priority: TaskPriorities.Low,
+                startDate: "string",
+                deadline: "string",
+                id: "string",
+                todoListId: "string",
+                order: 0,
+                addedDate: "string",
+                entityStatus: "idle"
+            }
         }))
 
     }
@@ -121,7 +158,9 @@ function App() {
         //         {id: v1(), title: "GraphQL2", isDone: false},]
         // })
 
+
         let action = addTodolistAC({
+            // @ts-ignore
             id: v1(),
             addedDate: "",
             order: 0,
@@ -137,7 +176,7 @@ function App() {
         //     ...tasks, [todolistID]: tasks[todolistID].map(item => item.id === taskId ?
         //         {...item, isDone} : item)
         // })
-        dispatchTasks(updateTaskAC(todolistID, taskId, {status}))
+        dispatchTasks(updateTaskAC({todolistId:todolistID, taskId:taskId,model: {status}}))
     }
 
     const changeTaskTitle = (todolistsID: string, taskId: string, title: string) => {
@@ -145,12 +184,12 @@ function App() {
         //     ...tasks, [todolistsID]: tasks[todolistsID].map(item => item.id === taskId ?
         //         {...item, title} : item)
         // })
-        dispatchTasks(updateTaskAC(todolistsID, taskId, {title}))
+        dispatchTasks(updateTaskAC({todolistId:todolistsID, taskId:taskId, model:{title}}))
     }
 
     const changeTodoListTitle = (todolistID: string, title: string) => {
         // setTodolists(todolists.map(item => item.id === todolistID ? {...item, title} : item))
-        dispatchTodolists(changeTodolistTitleAC(todolistID, title))
+        dispatchTodolists(changeTodolistTitleAC({todolistId2: todolistID, newTodolistTitle: title}))
     }
 
     return (

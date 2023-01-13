@@ -28,14 +28,12 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     const tasks = useSelector<AppRootStateType, TasksStateType>((state) => state.tasks)
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector<boolean>(state=>state.auth.isLoggedIn )
-    console.log("isL",isLoggedIn)
     useEffect(() => {
         if (demo || !isLoggedIn) {
             return
         }
             dispatch(getTodolistTC())
     }, [])
-console.log("isLoggedIn", isLoggedIn)
     const deleteTodoList = useCallback((todolistID: string) => {
         dispatch(deleteTodolistTC(todolistID))
     }, [dispatch])
@@ -45,7 +43,7 @@ console.log("isLoggedIn", isLoggedIn)
     }, [dispatch])
 
     const changeTask = useCallback((todolistID: string, buttonName: TaskFilterType) => {
-        dispatch(changeTodolistFilterAC(todolistID, buttonName))
+        dispatch(changeTodolistFilterAC({todolistId2: todolistID,newFilter: buttonName}))
     }, [dispatch])
 
     // UseState работает асинхронно
