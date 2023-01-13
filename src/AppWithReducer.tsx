@@ -1,5 +1,15 @@
 import React, { useReducer } from 'react'
 
+import {
+  AppBar,
+  Button,
+  Container,
+  Grid,
+  IconButton,
+  Paper,
+  Toolbar,
+  Typography,
+} from '@mui/material'
 import { v1 } from 'uuid'
 
 import './App.css'
@@ -14,17 +24,6 @@ import {
   todolistsReducer,
 } from './Reduserc/todolists-reducers'
 import TodoList from './TodoList'
-
-import {
-  AppBar,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  Paper,
-  Toolbar,
-  Typography,
-} from '@mui/material'
 
 export type TaskFilterType = 'all' | 'active' | 'completed'
 
@@ -245,7 +244,7 @@ function App() {
               }
 
               return (
-                <Grid item>
+                <Grid key={item.id} item>
                   <Paper style={{ padding: '15px' }}>
                     <TodoList
                       todolist={item}

@@ -58,7 +58,9 @@ const slice = createSlice({
     ) {
       const index = state.findIndex(item => item.id === action.payload.id)
 
-      state[index].entityStatus = action.payload.status
+      if (index > -1) {
+        state[index].entityStatus = action.payload.status
+      }
     },
     setTodolistsAC(state, action: PayloadAction<{ todolists: Array<TodolistType> }>) {
       return action.payload.todolists.map(item => ({

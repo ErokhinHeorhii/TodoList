@@ -1,14 +1,5 @@
 import React, { useState } from 'react'
 
-import { v1 } from 'uuid'
-
-import './App.css'
-import { TaskPriorities, TaskStatuses, TaskType } from './api/todolist-api'
-import AddItemForm from './Components/AddItemForm'
-import { TaskDomainType, TasksStateType } from './Reduserc/tasks-reducers'
-import { TaskFilterType, TodolistDomainType } from './Reduserc/todolists-reducers'
-import TodoList from './TodoList'
-
 import {
   AppBar,
   Button,
@@ -19,6 +10,14 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material'
+import { v1 } from 'uuid'
+
+import './App.css'
+import { TaskPriorities, TaskStatuses, TaskType } from './api/todolist-api'
+import AddItemForm from './Components/AddItemForm'
+import { TaskDomainType, TasksStateType } from './Reduserc/tasks-reducers'
+import { TaskFilterType, TodolistDomainType } from './Reduserc/todolists-reducers'
+import TodoList from './TodoList'
 
 // export type TasksStateType = {
 //     [key: string]: Array<TaskType>
@@ -249,7 +248,7 @@ function App() {
               }
 
               return (
-                <Grid item>
+                <Grid key={item.id} item>
                   <Paper style={{ padding: '15px' }}>
                     <TodoList
                       todolist={item}

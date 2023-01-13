@@ -1,4 +1,5 @@
-import { addTodolistAC, setTodolistsAC, removeTodolistAC } from './todolists-reducers'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
 import {
   TaskPriorities,
   TaskStatuses,
@@ -7,9 +8,10 @@ import {
   UpdateTaskModelType,
 } from '../api/todolist-api'
 import { AppDispatch, AppRootStateType } from '../State/Store'
-import { RequestStatusType, setAppStatusAC } from './app-reducer'
 import { hadleServerAppError, hadleServerNetworkError } from '../utils/error-utils'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
+import { RequestStatusType, setAppStatusAC } from './app-reducer'
+import { addTodolistAC, setTodolistsAC, removeTodolistAC } from './todolists-reducers'
 
 const initialState: TasksStateType = {}
 
@@ -20,6 +22,7 @@ const slice = createSlice({
     removeTaskAC(state, action: PayloadAction<{ todolistId: string; taskId: string }>) {
       const tasks = state[action.payload.todolistId]
       const index = tasks.findIndex(t => t.id === action.payload.taskId)
+
       if (index > -1) {
         tasks.splice(index, 1)
       }
@@ -37,6 +40,7 @@ const slice = createSlice({
     ) {
       const tasks = state[action.payload.todolistId]
       const index = tasks.findIndex(t => t.id === action.payload.taskId)
+
       if (index > -1) {
         tasks[index] = { ...tasks[index], ...action.payload.model }
       }
@@ -54,6 +58,7 @@ const slice = createSlice({
     ) {
       const tasks = state[action.payload.todolistId]
       const index = tasks.findIndex(t => t.id === action.payload.tasksId)
+
       if (index > -1) {
         tasks[index].entityStatus = action.payload.entityStatus
       }
@@ -88,6 +93,7 @@ export const getTaskTC = (todolistId: string) => (dispatch: AppDispatch) => {
         ...item,
         entityStatus: 'igle' as RequestStatusType,
       }))
+
       dispatch(setTaskAC({ tasks, todolistId }))
       dispatch(setAppStatusAC({ status: 'succeeded' }))
     })
@@ -144,6 +150,7 @@ export const addTaskTC = (todoListId: string, title: string) => (dispatch: AppDi
     .then(res => {
       if (res.data.resultCode === ResultStatus.OK) {
         const task = res.data.data.item
+
         dispatch(addTaskAC({ task: { ...task, entityStatus: 'idle' } }))
         dispatch(setAppStatusAC({ status: 'succeeded' }))
       } else {
@@ -159,6 +166,7 @@ export const updateTaskTC =
   (todolistId: string, taskId: string, domainModel: UpdateDomainTaskModelType) =>
   (dispatch: AppDispatch, getState: () => AppRootStateType) => {
     const task = getState().tasks[todolistId].find(item => item.id === taskId)
+
     if (task) {
       const apiModel: UpdateTaskModelType = {
         deadline: task.deadline,
