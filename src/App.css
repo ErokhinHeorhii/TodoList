@@ -8,8 +8,8 @@
 /*}*/
 
 .isDone {
-  text-decoration: line-through;
   font-weight: bold;
+  text-decoration: line-through;
 }
 
 /*.btn-active{*/

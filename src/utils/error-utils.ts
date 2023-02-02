@@ -2,7 +2,7 @@ import { ResponseType } from '../api/todolist-api'
 import { setAppErrorAC, setAppStatusAC } from '../Reduserc/app-reducer'
 import { AppDispatch } from '../State/Store'
 
-export const hadleServerAppError = <T>(data: ResponseType<T>, dispatch: AppDispatch) => {
+export const hadleServerAppError = <T>(data: ResponseType<T>, dispatch: any) => {
   if (data.messages.length) {
     dispatch(setAppErrorAC({ error: data.messages[0] }))
   } else {
@@ -11,7 +11,7 @@ export const hadleServerAppError = <T>(data: ResponseType<T>, dispatch: AppDispa
   dispatch(setAppStatusAC({ status: 'failed' }))
 }
 
-export const hadleServerNetworkError = (error: { message: string }, dispatch: AppDispatch) => {
+export const hadleServerNetworkError = (error: { message: string }, dispatch: any) => {
   dispatch(setAppErrorAC({ error: error.message ? error.message : 'some error occurred' }))
   dispatch(setAppStatusAC({ status: 'failed' }))
 }

@@ -15,7 +15,7 @@ import { v1 } from 'uuid'
 import './App.css'
 import { TaskPriorities, TaskStatuses, TaskType } from './api/todolist-api'
 import AddItemForm from './Components/AddItemForm'
-import { addTaskAC, removeTaskAC, tasksReducer, updateTaskAC } from './Reduserc/tasks-reducers'
+import { addTaskAC, deleteTaskTC, tasksReducer, updateTaskAC } from './Reduserc/tasks-reducers'
 import {
   addTodolistAC,
   changeTodolistFilterAC,
@@ -136,7 +136,7 @@ function App() {
     // setTask(task)
     //  setTask работает асинхронно
     // setTasks({...tasks, [todolistId]: tasks[todolistId].filter(item => item.id !== taskId)})
-    dispatchTasks(removeTaskAC({ todolistId, taskId }))
+    dispatchTasks(deleteTaskTC.fulfilled({ todolistId, taskId }, ' ', { todolistId, taskId }))
   }
   // ///////////////////////////////////
   const changeTask = (todolistID: string, buttonName: TaskFilterType) => {

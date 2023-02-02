@@ -8,7 +8,7 @@ import FormGroup from '@mui/material/FormGroup'
 import FormLabel from '@mui/material/FormLabel'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
-import { useFormik } from 'formik'
+import { FormikHelpers, useFormik } from 'formik'
 import { Navigate } from 'react-router-dom'
 
 import { loginTC } from '../Reduserc/auth-reducers'
@@ -42,6 +42,7 @@ export const Login = () => {
 
     return errors
   }
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -49,10 +50,17 @@ export const Login = () => {
       rememberMe: false,
     },
     validate,
-    onSubmit: values => {
+    onSubmit: async (values: FormikValueType, formikHelpers: FormikHelpers<FormikValueType>) => {
       // alert(JSON.stringify(values));
-      dispatch(loginTC(values))
-      formik.resetForm()
+      const action = await dispatch(loginTC(values))
+
+      if (loginTC.rejected.match(action)) {
+        if (action.payload?.fieldsErrors?.length) {
+          const error = action.payload?.fieldsErrors[0]
+
+          formikHelpers.setFieldError(error.field, error.error)
+        }
+      }
     },
   })
 

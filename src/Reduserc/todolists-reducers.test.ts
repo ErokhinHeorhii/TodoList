@@ -3,7 +3,7 @@ import { v1 } from 'uuid'
 import { TaskPriorities, TaskStatuses } from '../api/todolist-api'
 
 import { RequestStatusType } from './app-reducer'
-import { removeTaskAC, tasksReducer, TasksStateType } from './tasks-reducers'
+import { tasksReducer, TasksStateType } from './tasks-reducers'
 import {
   addTodolistAC,
   changeTodolistEntityStatusAC,

@@ -5,8 +5,8 @@ import { TaskPriorities, TaskStatuses } from '../api/todolist-api'
 import {
   addTaskAC,
   changeTaskEntityStatusAC,
-  removeTaskAC,
-  setTaskAC,
+  deleteTaskTC,
+  getTaskTC,
   tasksReducer,
   TasksStateType,
   updateTaskAC,
@@ -108,7 +108,10 @@ beforeEach(() => {
 })
 
 test('correct task should be deleted from correct array', () => {
-  const action = removeTaskAC({ todolistId: 'todolistId2', taskId: '2' })
+  const action = deleteTaskTC.fulfilled({ todolistId: 'todolistId2', taskId: '2' }, ' ', {
+    todolistId: 'todolistId2',
+    taskId: '2',
+  })
 
   const endState = tasksReducer(startState, action)
 
@@ -298,7 +301,14 @@ test('empty arrays should be added when we set todolist', () => {
 })
 
 test('tasks should be added for todolist', () => {
-  const action = setTaskAC({ tasks: startState['todolistId1'], todolistId: 'todolistId1' })
+  const action = getTaskTC.fulfilled(
+    {
+      tasks: startState['todolistId1'],
+      todolistId: 'todolistId1',
+    },
+    ' ',
+    'todolistId1'
+  )
 
   const endState = tasksReducer(
     {

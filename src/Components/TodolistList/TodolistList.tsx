@@ -52,7 +52,7 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
 
   const removeTask = useCallback(
     (todolistId: string, taskId: string) => {
-      dispatch(deleteTaskTC(todolistId, taskId))
+      dispatch(deleteTaskTC({ todolistId, taskId }))
     },
     [dispatch]
   )
@@ -117,7 +117,7 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
             let taskForFilter = tasks[item.id]
 
             return (
-              <Grid item>
+              <Grid item key={item.id}>
                 <Paper style={{ padding: '15px' }}>
                   <TodoList
                     todolist={item}

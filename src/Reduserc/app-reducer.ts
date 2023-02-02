@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Dispatch } from 'redux'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { AxiosError } from 'axios/index'
 
 import { authApi } from '../api/todolist-api'
 import { hadleServerAppError, hadleServerNetworkError } from '../utils/error-utils'
@@ -11,6 +11,23 @@ export const initialState = {
   error: null as null | string,
   isInitialized: false as boolean,
 }
+export const initializeTC = createAsyncThunk('app/initializeApp', async (data, thunkAPI) => {
+  thunkAPI.dispatch(setAppStatusAC({ status: 'loading' }))
+  try {
+    const res = await authApi.me()
+
+    if (res.data.resultCode === 0) {
+      thunkAPI.dispatch(setIsLoggedInAC({ value: true }))
+      thunkAPI.dispatch(setAppStatusAC({ status: 'succeeded' }))
+    } else {
+      hadleServerAppError(res.data, thunkAPI.dispatch)
+    }
+  } catch (error) {
+    const err = error as Error | AxiosError<{ error: string }>
+
+    hadleServerNetworkError(err, thunkAPI.dispatch)
+  }
+})
 
 const slice = createSlice({
   name: 'app',
@@ -22,13 +39,15 @@ const slice = createSlice({
     setAppErrorAC(state, action: PayloadAction<{ error: null | string }>) {
       state.error = action.payload.error
     },
-    setIsInitializedAC(state, action: PayloadAction<{ isInitialized: boolean }>) {
-      state.isInitialized = action.payload.isInitialized
-    },
+  },
+  extraReducers: bulder => {
+    bulder.addCase(initializeTC.fulfilled, state => {
+      state.isInitialized = true
+    })
   },
 })
 
-export const { setAppErrorAC, setAppStatusAC, setIsInitializedAC } = slice.actions
+export const { setAppErrorAC, setAppStatusAC } = slice.actions
 
 export const appReducer = slice.reducer
 //     (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
@@ -53,25 +72,25 @@ export const appReducer = slice.reducer
 // export const setIsInitializedAC = (value: boolean) =>
 //     ({type: 'APP/SET-INITIAL', value} as const)
 
-export const initializeTC = () => (dispatch: Dispatch) => {
-  dispatch(setAppStatusAC({ status: 'loading' }))
-  authApi
-    .me()
-    .then(res => {
-      if (res.data.resultCode === 0) {
-        dispatch(setIsLoggedInAC({ value: true }))
-        dispatch(setAppStatusAC({ status: 'succeeded' }))
-      } else {
-        hadleServerAppError(res.data, dispatch)
-      }
-    })
-    .catch(error => {
-      hadleServerNetworkError(error, dispatch)
-    })
-    .finally(() => {
-      dispatch(setIsInitializedAC({ isInitialized: true }))
-    })
-}
+// export const _initializeTC = () => (dispatch: Dispatch) => {
+//   dispatch(setAppStatusAC({ status: 'loading' }))
+//   authApi
+//     .me()
+//     .then(res => {
+//       if (res.data.resultCode === 0) {
+//         dispatch(setIsLoggedInAC({ value: true }))
+//         dispatch(setAppStatusAC({ status: 'succeeded' }))
+//       } else {
+//         hadleServerAppError(res.data, dispatch)
+//       }
+//     })
+//     .catch(error => {
+//       hadleServerNetworkError(error, dispatch)
+//     })
+//     .finally(() => {
+//       dispatch(setIsInitializedAC({ isInitialized: true }))
+//     })
+// }
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 //
