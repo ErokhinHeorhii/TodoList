@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
-import { Dispatch } from 'redux'
 
 import { authApi, FieldErrorType, LoginParamsType } from '../api/todolist-api'
 import { hadleServerAppError, hadleServerNetworkError } from '../utils/error-utils'

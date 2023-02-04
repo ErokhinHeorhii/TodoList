@@ -19,11 +19,8 @@ type FormikValueType = {
   password: string
   rememberMe: boolean
 }
-type FormikErrorType = {
-  email?: string
-  password?: string
-  rememberMe?: boolean
-}
+type FormikErrorType = Partial<FormikValueType>
+
 export const Login = () => {
   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
   const dispatch = useAppDispatch()
@@ -51,7 +48,6 @@ export const Login = () => {
     },
     validate,
     onSubmit: async (values: FormikValueType, formikHelpers: FormikHelpers<FormikValueType>) => {
-      // alert(JSON.stringify(values));
       const action = await dispatch(loginTC(values))
 
       if (loginTC.rejected.match(action)) {

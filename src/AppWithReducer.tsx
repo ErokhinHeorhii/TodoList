@@ -15,12 +15,12 @@ import { v1 } from 'uuid'
 import './App.css'
 import { TaskPriorities, TaskStatuses, TaskType } from './api/todolist-api'
 import AddItemForm from './Components/AddItemForm'
-import { addTaskAC, deleteTaskTC, tasksReducer, updateTaskAC } from './Reduserc/tasks-reducers'
+import { addTaskTC, deleteTaskTC, tasksReducer, updateTaskTC } from './Reduserc/tasks-reducers'
 import {
   addTodolistAC,
   changeTodolistFilterAC,
   changeTodolistTitleAC,
-  removeTodolistAC,
+  deleteTodolistTC,
   todolistsReducer,
 } from './Reduserc/todolists-reducers'
 import TodoList from './TodoList'
@@ -128,7 +128,7 @@ function App() {
     //
     // delete tasks[todolistID]
     // console.log("after t", tasks)
-    dispatchTodolists(removeTodolistAC({ todolistId: todolistID }))
+    dispatchTodolists(deleteTodolistTC.fulfilled({ todolistId: todolistID }, ' ', todolistID))
   }
 
   const removeTask = (todolistId: string, taskId: string) => {
@@ -148,30 +148,27 @@ function App() {
     // }
     dispatchTodolists(changeTodolistFilterAC({ todolistId2: todolistID, newFilter: buttonName }))
   }
-
   // UseState работает асинхронно
   const addTask = (todolistID: string, title: string) => {
     // const newTask = {
     //     id: v1(), title, isDone: false
     // }
     // setTasks({...tasks, [todolistID]: [newTask, ...tasks[todolistID]]})
-    dispatchTasks(
-      addTaskAC({
-        task: {
-          description: 'string',
-          title: 'string',
-          status: TaskStatuses.New,
-          priority: TaskPriorities.Low,
-          startDate: 'string',
-          deadline: 'string',
-          id: 'string',
-          todoListId: 'string',
-          order: 0,
-          addedDate: 'string',
-          entityStatus: 'idle',
-        },
-      })
-    )
+    const task = {
+      description: 'string',
+      title: 'string',
+      status: TaskStatuses.New,
+      priority: TaskPriorities.Low,
+      startDate: 'string',
+      deadline: 'string',
+      id: 'string',
+      todoListId: 'string',
+      order: 0,
+      addedDate: 'string',
+      entityStatus: 'idle',
+    }
+
+    dispatchTasks(addTaskTC.fulfilled({ task }, ' ', task))
   }
 
   const addTodoList = (title: string) => {
@@ -202,7 +199,9 @@ function App() {
     //     ...tasks, [todolistID]: tasks[todolistID].map(item => item.id === taskId ?
     //         {...item, isDone} : item)
     // })
-    dispatchTasks(updateTaskAC({ todolistId: todolistID, taskId: taskId, model: { status } }))
+    const model = { todolistId: todolistID, taskId: taskId, domainModel: { status } }
+
+    dispatchTasks(updateTaskTC.fulfilled(model, ' ', model))
   }
 
   const changeTaskTitle = (todolistsID: string, taskId: string, title: string) => {
@@ -210,7 +209,9 @@ function App() {
     //     ...tasks, [todolistsID]: tasks[todolistsID].map(item => item.id === taskId ?
     //         {...item, title} : item)
     // })
-    dispatchTasks(updateTaskAC({ todolistId: todolistsID, taskId: taskId, model: { title } }))
+    const model = { todolistId: todolistsID, taskId: taskId, domainModel: { title } }
+
+    dispatchTasks(updateTaskTC.fulfilled(model, ' ', model))
   }
 
   const changeTodoListTitle = (todolistID: string, title: string) => {

@@ -3,17 +3,17 @@ import { v1 } from 'uuid'
 import { TaskPriorities, TaskStatuses } from '../api/todolist-api'
 
 import {
-  addTaskAC,
+  addTaskTC,
   changeTaskEntityStatusAC,
   deleteTaskTC,
   getTaskTC,
   tasksReducer,
   TasksStateType,
-  updateTaskAC,
+  updateTaskTC,
 } from './tasks-reducers'
 import {
   addTodolistAC,
-  setTodolistsAC,
+  getTodolistTC,
   TodolistDomainType,
   todolistsReducer,
 } from './todolists-reducers'
@@ -189,21 +189,20 @@ test('correct task should be deleted from correct array', () => {
 })
 
 test('correct task should be added to correct array', () => {
-  const action = addTaskAC({
-    task: {
-      todoListId: 'todolistId2',
-      title: 'juce',
-      addedDate: '',
-      order: 0,
-      deadline: '',
-      priority: 0,
-      id: '123',
-      startDate: '',
-      description: '',
-      status: TaskStatuses.New,
-      entityStatus: 'idle',
-    },
-  })
+  const task = {
+    todoListId: 'todolistId2',
+    title: 'juce',
+    addedDate: '',
+    order: 0,
+    deadline: '',
+    priority: 0,
+    id: '123',
+    startDate: '',
+    description: '',
+    status: TaskStatuses.New,
+    entityStatus: 'idle',
+  }
+  const action = addTaskTC.fulfilled({ task }, ' ', task)
 
   const endState = tasksReducer(startState, action)
 
@@ -215,11 +214,12 @@ test('correct task should be added to correct array', () => {
 })
 
 test('status of specified task should be changed', () => {
-  const action = updateTaskAC({
+  const updateModel = {
     todolistId: 'todolistId2',
     taskId: '2',
-    model: { status: TaskStatuses.New },
-  })
+    domainModel: { status: TaskStatuses.New },
+  }
+  const action = updateTaskTC.fulfilled(updateModel, 'requestId ', updateModel)
 
   const endState = tasksReducer(startState, action)
 
@@ -228,7 +228,12 @@ test('status of specified task should be changed', () => {
 })
 
 test('title of specified task should be changed', () => {
-  const action = updateTaskAC({ todolistId: 'todolistId1', taskId: '1', model: { title: 'TS' } })
+  const updateModel = {
+    todolistId: 'todolistId1',
+    taskId: '1',
+    domainModel: { title: 'TS' },
+  }
+  const action = updateTaskTC.fulfilled(updateModel, ' ', updateModel)
 
   const endState = tasksReducer(startState, action)
 
@@ -284,12 +289,13 @@ test('ids should be equals', () => {
 })
 
 test('empty arrays should be added when we set todolist', () => {
-  const action = setTodolistsAC({
+  const data = {
     todolists: [
       { id: 'todolistId1', title: 'What to learn', addedDate: '', order: 0 },
       { id: 'todolistId2', title: 'What to buy', addedDate: '', order: 0 },
     ],
-  })
+  }
+  const action = getTodolistTC.fulfilled(data, ' ')
 
   const endState = tasksReducer({}, action)
 

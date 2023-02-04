@@ -9,8 +9,8 @@ import {
   changeTodolistEntityStatusAC,
   changeTodolistFilterAC,
   changeTodolistTitleAC,
-  removeTodolistAC,
-  setTodolistsAC,
+  deleteTodolistTC,
+  getTodolistTC,
   TaskFilterType,
   TodolistDomainType,
   todolistsReducer,
@@ -45,7 +45,10 @@ beforeEach(() => {
 })
 
 test('correct todolist should be removed', () => {
-  const endState = todolistsReducer(startState, removeTodolistAC({ todolistId: todolistId1 }))
+  const endState = todolistsReducer(
+    startState,
+    deleteTodolistTC.fulfilled({ todolistId: todolistId1 }, ' ', 'todolistId1')
+  )
 
   expect(endState.length).toBe(1)
   expect(endState[0].id).toBe(todolistId2)
@@ -181,7 +184,7 @@ test('property with todolistId should be deleted', () => {
     ],
   }
 
-  const action = removeTodolistAC({ todolistId: 'todolistId2' })
+  const action = deleteTodolistTC.fulfilled({ todolistId: 'todolistId2' }, ' ', 'todolistId2')
 
   const endState = tasksReducer(startState, action)
 
@@ -192,7 +195,7 @@ test('property with todolistId should be deleted', () => {
 })
 
 test('todolist should be set', () => {
-  const action = setTodolistsAC({ todolists: startState })
+  const action = getTodolistTC.fulfilled({ todolists: startState }, ' ')
   const endState = todolistsReducer([], action)
 
   expect(endState.length).toBe(2)

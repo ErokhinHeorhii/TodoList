@@ -66,8 +66,8 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
 
   // UseState работает асинхронно
   const addTask = useCallback(
-    (todolistID: string, title: string) => {
-      dispatch(addTaskTC(todolistID, title))
+    (todoListId: string, title: string) => {
+      dispatch(addTaskTC({ todoListId, title }))
     },
     [dispatch]
   )
@@ -82,15 +82,15 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
   )
 
   const changeStatus = useCallback(
-    (todolistID: string, taskId: string, status: TaskStatuses) => {
-      dispatch(updateTaskTC(todolistID, taskId, { status }))
+    (todolistId: string, taskId: string, status: TaskStatuses) => {
+      dispatch(updateTaskTC({ todolistId, taskId, domainModel: { status } }))
     },
     [dispatch]
   )
 
   const changeTaskTitle = useCallback(
-    (todolistsID: string, taskId: string, title: string) => {
-      dispatch(updateTaskTC(todolistsID, taskId, { title }))
+    (todolistId: string, taskId: string, title: string) => {
+      dispatch(updateTaskTC({ todolistId, taskId, domainModel: { title } }))
     },
     [dispatch]
   )
