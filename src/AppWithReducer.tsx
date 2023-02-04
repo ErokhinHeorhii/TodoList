@@ -17,9 +17,9 @@ import { TaskPriorities, TaskStatuses, TaskType } from './api/todolist-api'
 import AddItemForm from './Components/AddItemForm'
 import { addTaskTC, deleteTaskTC, tasksReducer, updateTaskTC } from './Reduserc/tasks-reducers'
 import {
-  addTodolistAC,
+  addTodolistTC,
   changeTodolistFilterAC,
-  changeTodolistTitleAC,
+  changeTodolistTitleTC,
   deleteTodolistTC,
   todolistsReducer,
 } from './Reduserc/todolists-reducers'
@@ -181,13 +181,17 @@ function App() {
     //         {id: v1(), title: "GraphQL2", isDone: false},]
     // })
 
-    let action = addTodolistAC({
-      // @ts-ignore
-      id: v1(),
-      addedDate: '',
-      order: 0,
-      title: title,
-    })
+    let action = addTodolistTC.fulfilled(
+      {
+        //@ts-ignore
+        id: v1(),
+        addedDate: '',
+        order: 0,
+        title: title,
+      },
+      ' ',
+      title
+    )
 
     dispatchTodolists(action)
     dispatchTasks(action)
@@ -214,9 +218,14 @@ function App() {
     dispatchTasks(updateTaskTC.fulfilled(model, ' ', model))
   }
 
-  const changeTodoListTitle = (todolistID: string, title: string) => {
+  const changeTodoListTitle = (id: string, title: string) => {
     // setTodolists(todolists.map(item => item.id === todolistID ? {...item, title} : item))
-    dispatchTodolists(changeTodolistTitleAC({ todolistId2: todolistID, newTodolistTitle: title }))
+    dispatchTodolists(
+      changeTodolistTitleTC.fulfilled({ todolistId2: id, newTodolistTitle: title }, ' ', {
+        id,
+        title,
+      })
+    )
   }
 
   return (

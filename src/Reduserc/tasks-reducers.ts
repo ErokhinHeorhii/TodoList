@@ -12,7 +12,7 @@ import { AppRootStateType } from '../State/Store'
 import { hadleServerAppError, hadleServerNetworkError } from '../utils/error-utils'
 
 import { RequestStatusType, setAppStatusAC } from './app-reducer'
-import { addTodolistAC, deleteTodolistTC, getTodolistTC } from './todolists-reducers'
+import { addTodolistTC, deleteTodolistTC, getTodolistTC } from './todolists-reducers'
 
 const initialState: TasksStateType = {}
 
@@ -211,7 +211,7 @@ const slice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(addTodolistAC, (state, action) => {
+    builder.addCase(addTodolistTC.fulfilled, (state, action) => {
       state[action.payload.todolist.id] = []
     })
     builder.addCase(deleteTodolistTC.fulfilled, (state, action) => {

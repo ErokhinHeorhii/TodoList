@@ -12,7 +12,7 @@ import {
   updateTaskTC,
 } from './tasks-reducers'
 import {
-  addTodolistAC,
+  addTodolistTC,
   getTodolistTC,
   TodolistDomainType,
   todolistsReducer,
@@ -242,14 +242,18 @@ test('title of specified task should be changed', () => {
 })
 
 test('new array should be added when new todolist is added', () => {
-  const action = addTodolistAC({
-    todolist: {
-      id: v1(),
-      addedDate: '',
-      order: 0,
-      title: 'newTodolistTitle',
+  const action = addTodolistTC.fulfilled(
+    {
+      todolist: {
+        id: v1(),
+        addedDate: '',
+        order: 0,
+        title: 'newTodolistTitle',
+      },
     },
-  })
+    ' ',
+    'newTodolistTitle'
+  )
 
   const endState = tasksReducer(startState, action)
 
@@ -268,14 +272,18 @@ test('ids should be equals', () => {
   const startTasksState: TasksStateType = {}
   const startTodolistsState: Array<TodolistDomainType> = []
 
-  const action = addTodolistAC({
-    todolist: {
-      id: v1(),
-      addedDate: '',
-      order: 0,
-      title: 'newTodolistTitle',
+  const action = addTodolistTC.fulfilled(
+    {
+      todolist: {
+        id: v1(),
+        addedDate: '',
+        order: 0,
+        title: 'newTodolistTitle',
+      },
     },
-  })
+    ' ',
+    'newTodolistTitle'
+  )
 
   const endTasksState = tasksReducer(startTasksState, action)
   const endTodolistsState = todolistsReducer(startTodolistsState, action)

@@ -5,10 +5,10 @@ import { TaskPriorities, TaskStatuses } from '../api/todolist-api'
 import { RequestStatusType } from './app-reducer'
 import { tasksReducer, TasksStateType } from './tasks-reducers'
 import {
-  addTodolistAC,
+  addTodolistTC,
   changeTodolistEntityStatusAC,
   changeTodolistFilterAC,
-  changeTodolistTitleAC,
+  changeTodolistTitleTC,
   deleteTodolistTC,
   getTodolistTC,
   TaskFilterType,
@@ -47,7 +47,7 @@ beforeEach(() => {
 test('correct todolist should be removed', () => {
   const endState = todolistsReducer(
     startState,
-    deleteTodolistTC.fulfilled({ todolistId: todolistId1 }, ' ', 'todolistId1')
+    deleteTodolistTC.fulfilled({ todolistId: todolistId1 }, ' ', todolistId1)
   )
 
   expect(endState.length).toBe(1)
@@ -59,14 +59,18 @@ test('correct todolist should be added', () => {
 
   const endState = todolistsReducer(
     startState,
-    addTodolistAC({
-      todolist: {
-        id: v1(),
-        addedDate: '',
-        order: 0,
-        title: newTodolistTitle,
+    addTodolistTC.fulfilled(
+      {
+        todolist: {
+          id: v1(),
+          addedDate: '',
+          order: 0,
+          title: newTodolistTitle,
+        },
       },
-    })
+      ' ',
+      newTodolistTitle
+    )
   )
 
   expect(endState.length).toBe(3)
@@ -79,7 +83,11 @@ test('correct todolist should change its name', () => {
 
   const endState = todolistsReducer(
     startState,
-    changeTodolistTitleAC({ todolistId2: todolistId2, newTodolistTitle: newTodolistTitle })
+    changeTodolistTitleTC.fulfilled(
+      { todolistId2: todolistId2, newTodolistTitle: newTodolistTitle },
+      ' ',
+      { id: todolistId2, title: newTodolistTitle }
+    )
   )
 
   expect(endState[0].title).toBe('What to learn')
@@ -184,7 +192,7 @@ test('property with todolistId should be deleted', () => {
     ],
   }
 
-  const action = deleteTodolistTC.fulfilled({ todolistId: 'todolistId2' }, ' ', 'todolistId2')
+  const action = deleteTodolistTC.fulfilled({ todolistId: 'todolistId2' }, ' ', todolistId2)
 
   const endState = tasksReducer(startState, action)
 

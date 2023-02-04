@@ -1,10 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios/index'
-import { Dispatch } from 'redux'
 import { v1 } from 'uuid'
 
 import { todolistAPI, TodolistType } from '../api/todolist-api'
-import { AppDispatch } from '../State/Store'
 import { hadleServerAppError, hadleServerNetworkError } from '../utils/error-utils'
 
 import { RequestStatusType, setAppStatusAC } from './app-reducer'
@@ -60,6 +58,60 @@ export const deleteTodolistTC = createAsyncThunk(
   }
 )
 
+export const addTodolistTC = createAsyncThunk(
+  'todolist/addTodolist',
+  async (title: string, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatusAC({ status: 'loading' }))
+
+    try {
+      const res = await todolistAPI.createTodolist(title)
+
+      if (res.data.resultCode === 0) {
+        thunkAPI.dispatch(setAppStatusAC({ status: 'succeeded' }))
+
+        return { todolist: res.data.data.item }
+      } else {
+        hadleServerAppError(res.data, thunkAPI.dispatch)
+
+        return thunkAPI.rejectWithValue(null)
+      }
+    } catch (error) {
+      const err = error as Error | AxiosError<{ error: string }>
+
+      hadleServerNetworkError(err, thunkAPI.dispatch)
+
+      return thunkAPI.rejectWithValue(null)
+    }
+  }
+)
+
+export const changeTodolistTitleTC = createAsyncThunk(
+  'todolist/changeTodolistTitle',
+  async ({ id, title }: { id: string; title: string }, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatusAC({ status: 'loading' }))
+
+    try {
+      const res = await todolistAPI.updateTodolist(id, title)
+
+      if (res.data.resultCode === 0) {
+        thunkAPI.dispatch(setAppStatusAC({ status: 'succeeded' }))
+
+        return { todolistId2: id, newTodolistTitle: title }
+      } else {
+        hadleServerAppError(res.data, thunkAPI.dispatch)
+
+        return thunkAPI.rejectWithValue(null)
+      }
+    } catch (error) {
+      const err = error as Error | AxiosError<{ error: string }>
+
+      hadleServerNetworkError(err, thunkAPI.dispatch)
+
+      return thunkAPI.rejectWithValue(null)
+    }
+  }
+)
+
 const slice = createSlice({
   name: 'todolists',
   initialState: initialState,
@@ -71,20 +123,20 @@ const slice = createSlice({
     //     state.splice(index, 1)
     //   }
     // },
-    addTodolistAC(state, action: PayloadAction<{ todolist: TodolistType }>) {
-      state.unshift({ ...action.payload.todolist, filter: 'all', entityStatus: 'idle' })
-    },
-    changeTodolistTitleAC(
-      state,
-      action: PayloadAction<{
-        todolistId2: string
-        newTodolistTitle: string
-      }>
-    ) {
-      const index = state.findIndex(item => item.id === action.payload.todolistId2)
-
-      state[index].title = action.payload.newTodolistTitle
-    },
+    // addTodolistAC(state, action: PayloadAction<{ todolist: TodolistType }>) {
+    //   state.unshift({ ...action.payload.todolist, filter: 'all', entityStatus: 'idle' })
+    // },
+    // changeTodolistTitleAC(
+    //   state,
+    //   action: PayloadAction<{
+    //     todolistId2: string
+    //     newTodolistTitle: string
+    //   }>
+    // ) {
+    //   const index = state.findIndex(item => item.id === action.payload.todolistId2)
+    //
+    //   state[index].title = action.payload.newTodolistTitle
+    // },
     changeTodolistFilterAC(
       state,
       action: PayloadAction<{
@@ -132,15 +184,18 @@ const slice = createSlice({
         state.splice(index, 1)
       }
     })
+    bulder.addCase(addTodolistTC.fulfilled, (state, action) => {
+      state.unshift({ ...action.payload.todolist, filter: 'all', entityStatus: 'idle' })
+    })
+    bulder.addCase(changeTodolistTitleTC.fulfilled, (state, action) => {
+      const index = state.findIndex(item => item.id === action.payload.todolistId2)
+
+      state[index].title = action.payload.newTodolistTitle
+    })
   },
 })
 
-export const {
-  addTodolistAC,
-  changeTodolistFilterAC,
-  changeTodolistTitleAC,
-  changeTodolistEntityStatusAC,
-} = slice.actions
+export const { changeTodolistFilterAC, changeTodolistEntityStatusAC } = slice.actions
 
 export const todolistsReducer = slice.reducer
 
@@ -179,43 +234,43 @@ export const todolistsReducer = slice.reducer
 //     })
 // }
 
-export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
-  dispatch(setAppStatusAC({ status: 'loading' }))
-  const promise = todolistAPI.createTodolist(title)
+// export const _addTodolistTC = (title: string) => (dispatch: Dispatch) => {
+//   dispatch(setAppStatusAC({ status: 'loading' }))
+//   const promise = todolistAPI.createTodolist(title)
+//
+//   promise
+//     .then(res => {
+//       if (res.data.resultCode === 0) {
+//         dispatch(addTodolistAC({ todolist: res.data.data.item }))
+//         dispatch(setAppStatusAC({ status: 'succeeded' }))
+//       } else {
+//         hadleServerAppError(res.data, dispatch)
+//       }
+//     })
+//     .catch(error => {
+//       hadleServerNetworkError(error, dispatch)
+//     })
+// }
 
-  promise
-    .then(res => {
-      if (res.data.resultCode === 0) {
-        dispatch(addTodolistAC({ todolist: res.data.data.item }))
-        dispatch(setAppStatusAC({ status: 'succeeded' }))
-      } else {
-        hadleServerAppError(res.data, dispatch)
-      }
-    })
-    .catch(error => {
-      hadleServerNetworkError(error, dispatch)
-    })
-}
+// export const _changeTodolistTitleTC = (id: string, title: string) => (dispatch: AppDispatch) => {
+//   dispatch(setAppStatusAC({ status: 'loading' }))
+//   const promise = todolistAPI.updateTodolist(id, title)
+//
+//   promise
+//     .then(res => {
+//       if (res.data.resultCode === 0) {
+//         dispatch(changeTodolistTitleAC({ todolistId2: id, newTodolistTitle: title }))
+//         dispatch(setAppStatusAC({ status: 'succeeded' }))
+//       } else {
+//         hadleServerAppError(res.data, dispatch)
+//       }
+//     })
+//     .catch(error => {
+//       hadleServerNetworkError(error, dispatch)
+//     })
+// }
 
-export const changeTodolistTitleTC = (id: string, title: string) => (dispatch: AppDispatch) => {
-  dispatch(setAppStatusAC({ status: 'loading' }))
-  const promise = todolistAPI.updateTodolist(id, title)
-
-  promise
-    .then(res => {
-      if (res.data.resultCode === 0) {
-        dispatch(changeTodolistTitleAC({ todolistId2: id, newTodolistTitle: title }))
-        dispatch(setAppStatusAC({ status: 'succeeded' }))
-      } else {
-        hadleServerAppError(res.data, dispatch)
-      }
-    })
-    .catch(error => {
-      hadleServerNetworkError(error, dispatch)
-    })
-}
-
-export type AddTodolistACType = ReturnType<typeof addTodolistAC>
+// export type AddTodolistACType = ReturnType<typeof addTodolistAC>
 //
 // export type SetTodolistsActionType = {
 //   type: 'SET-TODOLISTS'
