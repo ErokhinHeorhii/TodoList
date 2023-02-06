@@ -1,13 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
 
-import {
-  TaskPriorities,
-  TaskStatuses,
-  TaskType,
-  todolistAPI,
-  UpdateTaskModelType,
-} from '../api/todolist-api'
+import { TaskType, todolistAPI, UpdateTaskModelType } from '../api/todolist-api'
 import { AppRootStateType } from '../State/Store'
 import { hadleServerAppError, hadleServerNetworkError } from '../utils/error-utils'
 
@@ -215,7 +209,7 @@ const slice = createSlice({
       state[action.payload.todolist.id] = []
     })
     builder.addCase(deleteTodolistTC.fulfilled, (state, action) => {
-      delete state[action.payload!.todolistId]
+      delete state[action.payload.todolistId]
     })
     builder.addCase(getTodolistTC.fulfilled, (state, action) => {
       action.payload.todolists.forEach((item: any) => {
@@ -234,7 +228,7 @@ const slice = createSlice({
       }
     })
     builder.addCase(addTaskTC.fulfilled, (state, action) => {
-      // @ts-ignore
+      //@ts-ignore
       state[action.payload.task.todoListId].unshift(action.payload.task)
     })
     builder.addCase(updateTaskTC.fulfilled, (state, action) => {
@@ -363,21 +357,14 @@ export const { changeTaskEntityStatusAC } = slice.actions
 //     }
 //   }
 
-export type SetTasksActionType = {
-  type: 'SET_TASKS'
-  payload: {
-    tasks: Array<TaskDomainType>
-    todolistId: string
-  }
-}
-export type UpdateDomainTaskModelType = {
-  title?: string
-  description?: string
-  status?: TaskStatuses
-  priority?: TaskPriorities
-  startDate?: string
-  deadline?: string
-}
+// export type SetTasksActionType = {
+//   type: 'SET_TASKS'
+//   payload: {
+//     tasks: Array<TaskDomainType>
+//     todolistId: string
+//   }
+// }
+export type UpdateDomainTaskModelType = Partial<UpdateTaskModelType>
 export type TasksStateType = {
   [key: string]: Array<TaskDomainType>
 }
