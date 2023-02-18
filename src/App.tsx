@@ -12,28 +12,14 @@ import {
 } from '@mui/material'
 import { v1 } from 'uuid'
 
-import './App.css'
-import { TaskPriorities, TaskStatuses, TaskType } from './api/todolist-api'
-import AddItemForm from './Components/AddItemForm'
-import { TaskDomainType, TasksStateType } from './Reduserc/tasks-reducers'
-import { TaskFilterType, TodolistDomainType } from './Reduserc/todolists-reducers'
-import TodoList from './TodoList'
+import './app/App.css'
+import { TaskPriorities, TaskStatuses } from './api/todolist-api'
+import AddItemForm from './Components/AddItemForm/AddItemForm'
+import { TaskDomainType, TasksStateType } from './Components/TaskComponent/tasks-reducers'
+import TodoList from './Components/TodolistList/TodoList/TodoList'
+import { TaskFilterType, TodolistDomainType } from './Components/TodolistList/todolists-reducers'
 
-// export type TasksStateType = {
-//     [key: string]: Array<TaskType>
-// }
-
-// class components
 function App() {
-  // BusnessLogic
-  // бывает еще интерфейс -терминал
-  // Графический интерфейс у нас в проекте (GUI)
-  // GUI-> CRUD(Create, Read, Update, Delete)
-  // С + -одна функция
-  // r +++
-  // U ++!-пропорционально сложности обьекта (сколько свойств столько и функций внесения изменений)
-  // D +
-
   let todolistID1 = v1()
   let todolistID2 = v1()
 

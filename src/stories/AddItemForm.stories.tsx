@@ -6,10 +6,11 @@ import TextField from '@mui/material/TextField/TextField'
 import { action } from '@storybook/addon-actions'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import AddItemForm from '../Components/AddItemForm'
+import AddItemForm from '../Components/AddItemForm/AddItemForm'
 
 import { Button } from './Button'
 
+// eslint-disable-next-line no-redeclare
 type AddItemForm = {
   addItem: (title: string) => void
   disabled?: boolean

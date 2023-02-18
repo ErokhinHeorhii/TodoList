@@ -3,24 +3,21 @@ import React, { useCallback, useEffect } from 'react'
 import { Delete } from '@mui/icons-material'
 import { Button } from '@mui/material'
 
-import { TaskStatuses, TaskType } from './api/todolist-api'
-import AddItemForm from './Components/AddItemForm'
-import EditableSpan from './Components/EditableSpan'
-import { Task } from './Components/TaskComponent'
-import { getTaskTC, TaskDomainType } from './Reduserc/tasks-reducers'
-import { TaskFilterType, TodolistDomainType } from './Reduserc/todolists-reducers'
-import { useAppDispatch } from './State/Store'
+import { TaskStatuses } from '../../../api/todolist-api'
+import { useAppDispatch } from '../../../State/Store'
+import AddItemForm from '../../AddItemForm/AddItemForm'
+import EditableSpan from '../../EditableSpan/EditableSpan'
+import { Task } from '../../TaskComponent/TaskComponent'
+import { getTaskTC, TaskDomainType } from '../../TaskComponent/tasks-reducers'
+import { TaskFilterType, TodolistDomainType } from '../todolists-reducers'
 
 type TodolistPropsType = {
   todolist: TodolistDomainType
-  // title: string;
   task: Array<TaskDomainType>
   removeTask: (todolistId: string, taskId: string) => void
   changeTask: (todolistID: string, buttonName: TaskFilterType) => void
   addTask: (todolistID: string, title: string) => void
   changeStatus: (todolistID: string, taskId: string, status: TaskStatuses) => void
-  // filter: TaskFilterType
-  // todolistID: string
   deleteTodolist: (todolistID: string) => void
   changeTaskTitle: (todolistID: string, taskId: string, title: string) => void
   changeTodolistTitle: (todolistID: string, title: string) => void
@@ -50,6 +47,7 @@ const Todolist = React.memo(({ demo = false, ...props }: TodolistPropsType) => {
     taskForFilter.map(item => {
       return (
         <Task
+          key={item.id}
           changeTaskTitle={props.changeTaskTitle}
           itemTask={item}
           removeTask={props.removeTask}
@@ -59,7 +57,7 @@ const Todolist = React.memo(({ demo = false, ...props }: TodolistPropsType) => {
       )
     })
   ) : (
-    <div>"No task there"</div>
+    <div>No task there</div>
   )
 
   const addTask = useCallback(
@@ -90,13 +88,19 @@ const Todolist = React.memo(({ demo = false, ...props }: TodolistPropsType) => {
 
   return (
     <div>
-      <h3>
+      <h3 style={{ display: 'flex' }}>
         <EditableSpan value={props.todolist.title} changeTitle={changeTodoListTitle} />
         <Button
           onClick={onClickHandlerForTodoList}
           variant="outlined"
           startIcon={<Delete />}
-          style={{ maxWidth: '60px', maxHeight: '30px', minWidth: '06px', minHeight: '30px' }}
+          style={{
+            maxWidth: '60px',
+            maxHeight: '30px',
+            minWidth: '06px',
+            minHeight: '30px',
+            marginLeft: '15px',
+          }}
           disabled={props.todolist.entityStatus === 'loading'}
         >
           Del
@@ -105,13 +109,14 @@ const Todolist = React.memo(({ demo = false, ...props }: TodolistPropsType) => {
       <div>
         <AddItemForm addItem={addTask} disabled={props.todolist.entityStatus === 'loading'} />
       </div>
-      <ul>{tasksItems}</ul>
+      <ul style={{ paddingLeft: '5px' }}>{tasksItems}</ul>
       <div style={{ paddingTop: '10px' }}>
         <Button
           onClick={changeTaskHandler('all')}
           variant={props.todolist.filter === 'all' ? 'contained' : 'outlined'}
           size={'small'}
           color={'primary'}
+          style={{ marginRight: '10px' }}
         >
           All
         </Button>
@@ -120,6 +125,7 @@ const Todolist = React.memo(({ demo = false, ...props }: TodolistPropsType) => {
           variant={props.todolist.filter === 'active' ? 'contained' : 'outlined'}
           size={'small'}
           color={'primary'}
+          style={{ marginRight: '10px' }}
         >
           Active
         </Button>

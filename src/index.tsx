@@ -1,12 +1,11 @@
 import React from 'react'
 
-import ReactDOM from 'react-dom'
-
 import './index.css'
+import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 
-import AppWithRedax from './AppWithRedux'
+import AppWithRedax from './app/AppWithRedux'
 import * as serviceWorker from './serviceWorker'
 import { store } from './State/Store'
 

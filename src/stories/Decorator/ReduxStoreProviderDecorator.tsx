@@ -6,9 +6,9 @@ import thunkMiddleware from 'redux-thunk'
 import { v1 } from 'uuid'
 
 import { TaskPriorities, TaskStatuses } from '../../api/todolist-api'
-import { appReducer } from '../../Reduserc/app-reducer'
-import { tasksReducer } from '../../Reduserc/tasks-reducers'
-import { todolistId2, todolistsReducer } from '../../Reduserc/todolists-reducers'
+import { appReducer } from '../../app/app-reducer'
+import { tasksReducer } from '../../Components/TaskComponent/tasks-reducers'
+import { todolistId2, todolistsReducer } from '../../Components/TodolistList/todolists-reducers'
 import { AppRootStateType } from '../../State/Store'
 
 const rootReducer = combineReducers({

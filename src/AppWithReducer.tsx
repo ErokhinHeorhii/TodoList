@@ -12,18 +12,23 @@ import {
 } from '@mui/material'
 import { v1 } from 'uuid'
 
-import './App.css'
+import './app/App.css'
 import { TaskPriorities, TaskStatuses, TaskType } from './api/todolist-api'
-import AddItemForm from './Components/AddItemForm'
-import { addTaskTC, deleteTaskTC, tasksReducer, updateTaskTC } from './Reduserc/tasks-reducers'
+import AddItemForm from './Components/AddItemForm/AddItemForm'
+import {
+  addTaskTC,
+  deleteTaskTC,
+  tasksReducer,
+  updateTaskTC,
+} from './Components/TaskComponent/tasks-reducers'
+import TodoList from './Components/TodolistList/TodoList/TodoList'
 import {
   addTodolistTC,
   changeTodolistFilterAC,
   changeTodolistTitleTC,
   deleteTodolistTC,
   todolistsReducer,
-} from './Reduserc/todolists-reducers'
-import TodoList from './TodoList'
+} from './Components/TodolistList/todolists-reducers'
 
 export type TaskFilterType = 'all' | 'active' | 'completed'
 

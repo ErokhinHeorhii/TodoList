@@ -1,9 +1,9 @@
 import { v1 } from 'uuid'
 
-import { TaskPriorities, TaskStatuses } from '../api/todolist-api'
+import { TaskPriorities, TaskStatuses } from '../../api/todolist-api'
+import { RequestStatusType } from '../../app/app-reducer'
+import { tasksReducer, TasksStateType } from '../TaskComponent/tasks-reducers'
 
-import { RequestStatusType } from './app-reducer'
-import { tasksReducer, TasksStateType } from './tasks-reducers'
 import {
   addTodolistTC,
   changeTodolistEntityStatusAC,

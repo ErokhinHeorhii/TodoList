@@ -2,9 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios/index'
 
 import { authApi } from '../api/todolist-api'
+import { setIsLoggedInAC } from '../features/Login/auth-reducers'
 import { hadleServerAppError, hadleServerNetworkError } from '../utils/error-utils'
-
-import { setIsLoggedInAC } from './auth-reducers'
 
 export const initialState = {
   status: 'idle' as RequestStatusType,

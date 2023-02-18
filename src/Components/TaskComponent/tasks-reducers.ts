@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
 
-import { TaskType, todolistAPI, UpdateTaskModelType } from '../api/todolist-api'
-import { AppRootStateType } from '../State/Store'
-import { hadleServerAppError, hadleServerNetworkError } from '../utils/error-utils'
-
-import { RequestStatusType, setAppStatusAC } from './app-reducer'
-import { addTodolistTC, deleteTodolistTC, getTodolistTC } from './todolists-reducers'
+import { TaskType, todolistAPI, UpdateTaskModelType } from '../../api/todolist-api'
+import { RequestStatusType, setAppStatusAC } from '../../app/app-reducer'
+import { AppRootStateType } from '../../State/Store'
+import { hadleServerAppError, hadleServerNetworkError } from '../../utils/error-utils'
+import { addTodolistTC, deleteTodolistTC, getTodolistTC } from '../TodolistList/todolists-reducers'
 
 const initialState: TasksStateType = {}
 
@@ -364,6 +363,7 @@ export const { changeTaskEntityStatusAC } = slice.actions
 //     todolistId: string
 //   }
 // }
+
 export type UpdateDomainTaskModelType = Partial<UpdateTaskModelType>
 export type TasksStateType = {
   [key: string]: Array<TaskDomainType>

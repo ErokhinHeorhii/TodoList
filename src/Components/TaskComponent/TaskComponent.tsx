@@ -3,10 +3,11 @@ import React, { ChangeEvent, useCallback } from 'react'
 import { Delete } from '@mui/icons-material'
 import { Checkbox, IconButton } from '@mui/material'
 
-import { TaskStatuses, TaskType } from '../api/todolist-api'
-import { TaskDomainType } from '../Reduserc/tasks-reducers'
+import { TaskStatuses } from '../../api/todolist-api'
+import EditableSpan from '../EditableSpan/EditableSpan'
 
-import EditableSpan from './EditableSpan'
+import s from './TaskComponent.module.css'
+import { TaskDomainType } from './tasks-reducers'
 
 type TaskComponentType = {
   itemTask: TaskDomainType
@@ -34,13 +35,13 @@ export const Task = React.memo((props: TaskComponentType) => {
 
   const removeTaskHandler = () => {
     props.removeTask(props.todolistID, props.itemTask.id)
-    console.log(props.itemTask.entityStatus)
   }
 
   return (
     <li
+      style={{ listStyle: 'none' }}
       key={props.itemTask.id}
-      className={props.itemTask.status === TaskStatuses.Completed ? 'isDone' : ''}
+      className={props.itemTask.status === TaskStatuses.Completed ? `${s.isDone} ${s.li}` : s.li}
     >
       <Checkbox
         color="primary"

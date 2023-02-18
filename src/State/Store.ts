@@ -3,10 +3,10 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { AnyAction, combineReducers } from 'redux'
 import thunkMiddleware, { ThunkAction, ThunkDispatch } from 'redux-thunk'
 
-import { appReducer } from '../Reduserc/app-reducer'
-import { authReducer } from '../Reduserc/auth-reducers'
-import { tasksReducer } from '../Reduserc/tasks-reducers'
-import { todolistsReducer } from '../Reduserc/todolists-reducers'
+import { appReducer } from '../app/app-reducer'
+import { tasksReducer } from '../Components/TaskComponent/tasks-reducers'
+import { todolistsReducer } from '../Components/TodolistList/todolists-reducers'
+import { authReducer } from '../features/Login/auth-reducers'
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,

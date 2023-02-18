@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from 'react'
 
 import { TextField } from '@mui/material'
 
-import { RequestStatusType } from '../Reduserc/app-reducer'
+import { RequestStatusType } from '../../app/app-reducer'
 
 type EditableSpanType = {
   value: string
@@ -35,7 +35,8 @@ const EditableSpan = React.memo((props: EditableSpanType) => {
   }
 
   return (
-    <>
+    <div>
+      {/* eslint-disable-next-line no-nested-ternary */}
       {editMode ? (
         props.entityStatus !== 'loading' ? (
           <TextField
@@ -53,7 +54,7 @@ const EditableSpan = React.memo((props: EditableSpanType) => {
       ) : (
         <span onDoubleClick={activateEditMode}>{props.value}</span>
       )}
-    </>
+    </div>
   )
 })
 

@@ -11,8 +11,10 @@ import TextField from '@mui/material/TextField'
 import { FormikHelpers, useFormik } from 'formik'
 import { Navigate } from 'react-router-dom'
 
-import { loginTC } from '../Reduserc/auth-reducers'
-import { useAppDispatch, useAppSelector } from '../State/Store'
+import { useAppDispatch, useAppSelector } from '../../State/Store'
+
+import { loginTC } from './auth-reducers'
+import { selectIsLoggedIn } from './selectors'
 
 type FormikValueType = {
   email: string
@@ -22,7 +24,7 @@ type FormikValueType = {
 type FormikErrorType = Partial<FormikValueType>
 
 export const Login = () => {
-  const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+  const isLoggedIn = useAppSelector<boolean>(selectIsLoggedIn)
   const dispatch = useAppDispatch()
 
   const validate = (values: FormikValueType) => {
@@ -61,8 +63,6 @@ export const Login = () => {
   })
 
   if (isLoggedIn) {
-    console.log('is', isLoggedIn)
-
     return <Navigate to="/" />
   }
 

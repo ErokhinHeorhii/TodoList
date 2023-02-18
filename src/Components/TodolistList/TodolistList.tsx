@@ -1,18 +1,22 @@
 import React, { useCallback, useEffect } from 'react'
 
-import '../../App.css'
+import '../../app/App.css'
 import { Grid, Paper } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
 import { TaskStatuses } from '../../api/todolist-api'
-import AddItemForm from '../../Components/AddItemForm'
+import selectIsLoggedIn from '../../features/Login'
+import { AppRootStateType, useAppDispatch, useAppSelector } from '../../State/Store'
+import AddItemForm from '../AddItemForm/AddItemForm'
 import {
   addTaskTC,
   deleteTaskTC,
   TasksStateType,
   updateTaskTC,
-} from '../../Reduserc/tasks-reducers'
+} from '../TaskComponent/tasks-reducers'
+
+import TodoList from './TodoList/TodoList'
 import {
   addTodolistTC,
   changeTodolistFilterAC,
@@ -21,9 +25,7 @@ import {
   getTodolistTC,
   TaskFilterType,
   TodolistDomainType,
-} from '../../Reduserc/todolists-reducers'
-import { AppRootStateType, useAppDispatch, useAppSelector } from '../../State/Store'
-import TodoList from '../../TodoList'
+} from './todolists-reducers'
 
 type PropsType = {
   demo?: boolean
@@ -35,7 +37,7 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
   )
   const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
   const dispatch = useAppDispatch()
-  const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+  const isLoggedIn = useAppSelector<boolean>(selectIsLoggedIn)
 
   useEffect(() => {
     if (demo || !isLoggedIn) {
@@ -43,6 +45,7 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
     }
     dispatch(getTodolistTC())
   }, [])
+
   const deleteTodoList = useCallback(
     (todolistID: string) => {
       dispatch(deleteTodolistTC(todolistID))

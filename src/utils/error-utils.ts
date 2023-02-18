@@ -1,6 +1,5 @@
 import { ResponseType } from '../api/todolist-api'
-import { setAppErrorAC, setAppStatusAC } from '../Reduserc/app-reducer'
-import { AppDispatch } from '../State/Store'
+import { setAppErrorAC, setAppStatusAC } from '../app/app-reducer'
 
 export const hadleServerAppError = <T>(data: ResponseType<T>, dispatch: any) => {
   if (data.messages.length) {

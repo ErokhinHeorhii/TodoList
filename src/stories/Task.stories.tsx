@@ -4,8 +4,8 @@ import { action } from '@storybook/addon-actions'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 import { TaskPriorities, TaskStatuses } from '../api/todolist-api'
-import { Task } from '../Components/TaskComponent'
-import { todolistId2 } from '../Reduserc/todolists-reducers'
+import { Task } from '../Components/TaskComponent/TaskComponent'
+import { todolistId2 } from '../Components/TodolistList/todolists-reducers'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

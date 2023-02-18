@@ -13,31 +13,26 @@ import {
 } from '@mui/material'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
-import { ErrorSnackbar } from './Components/ErrorSnackbar/ErrorSnackbar'
-import { TodolistsList } from './Components/TodolistList/TodolistList'
-import { Login } from './features/Login'
-import { initializeTC } from './Reduserc/app-reducer'
-import { logoutTC } from './Reduserc/auth-reducers'
-import { useAppDispatch, useAppSelector } from './State/Store'
+import { ErrorSnackbar } from '../Components/ErrorSnackbar/ErrorSnackbar'
+import { TodolistsList } from '../Components/TodolistList/TodolistList'
+import { logoutTC } from '../features/Login/auth-reducers'
+import { Login } from '../features/Login/Login'
+import { selectIsLoggedIn } from '../features/Login/selectors'
+import { useAppDispatch, useAppSelector } from '../State/Store'
+
+import { initializeTC } from './app-reducer'
+
+import { appSelectors } from './index'
 
 type PropsType = {
   demo?: boolean
 }
 
-// class components
 function App({ demo = false }: PropsType) {
-  // BusnessLogic
-  // бывает еще интерфейс -терминал
-  // Графический интерфейс у нас в проекте (GUI)
-  // GUI-> CRUD(Create, Read, Update, Delete)
-  // С + -одна функция
-  // r +++
-  // U ++!-пропорционально сложности обьекта (сколько свойств столько и функций внесения изменений)
-  // D +
-  const initialized = useAppSelector(state => state.app.isInitialized)
-  const status = useAppSelector(state => state.app.status)
-  const error = useAppSelector(state => state.app.error)
-  const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+  const initialized = useAppSelector(appSelectors.selectIsInitialized)
+  const status = useAppSelector(appSelectors.selectStatus)
+  const error = useAppSelector(appSelectors.selectErrorApp)
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -64,7 +59,11 @@ function App({ demo = false }: PropsType) {
           <IconButton edge="start" color="inherit" aria-label="menu"></IconButton>
           <Typography variant="h6">TodoList</Typography>
           {isLoggedIn && (
-            <Button color="inherit" onClick={onClickHandlerLogOut}>
+            <Button
+              color="inherit"
+              onClick={onClickHandlerLogOut}
+              style={{ display: 'inline-block', marginLeft: 'auto' }}
+            >
               Log out
             </Button>
           )}

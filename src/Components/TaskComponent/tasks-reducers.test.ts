@@ -1,6 +1,12 @@
 import { v1 } from 'uuid'
 
-import { TaskPriorities, TaskStatuses } from '../api/todolist-api'
+import { TaskPriorities, TaskStatuses } from '../../api/todolist-api'
+import {
+  addTodolistTC,
+  getTodolistTC,
+  TodolistDomainType,
+  todolistsReducer,
+} from '../TodolistList/todolists-reducers'
 
 import {
   addTaskTC,
@@ -11,12 +17,6 @@ import {
   TasksStateType,
   updateTaskTC,
 } from './tasks-reducers'
-import {
-  addTodolistTC,
-  getTodolistTC,
-  TodolistDomainType,
-  todolistsReducer,
-} from './todolists-reducers'
 
 let startState: TasksStateType
 

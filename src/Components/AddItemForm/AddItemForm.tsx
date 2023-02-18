@@ -25,7 +25,7 @@ const AddItemForm = React.memo(({ disabled = false, ...props }: AddItemFormType)
   const userMessage = error ? (
     <div style={{ color: 'red' }}>Title is requared! </div>
   ) : (
-    <div> Please, create this</div>
+    <div>Please, create this</div>
   )
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,12 +42,6 @@ const AddItemForm = React.memo(({ disabled = false, ...props }: AddItemFormType)
 
   return (
     <>
-      {/*<input*/}
-      {/*    className={error ? "error" : ""}*/}
-      {/*    value={title}*/}
-      {/*    onChange={onChangeHandler}*/}
-      {/*    onKeyDown={onKeDownHandler}*/}
-      {/*/>*/}
       <TextField
         label={error ? 'error' : ''}
         value={title}
@@ -57,12 +51,18 @@ const AddItemForm = React.memo(({ disabled = false, ...props }: AddItemFormType)
         variant="outlined"
         error={!!error}
         disabled={disabled}
+        style={{ display: 'inline' }}
       />
-      {/*<button onClick={addTask}>+</button>*/}
       <Button
         variant="outlined"
         onClick={addTask}
-        style={{ maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px' }}
+        style={{
+          maxWidth: '30px',
+          maxHeight: '30px',
+          minWidth: '30px',
+          minHeight: '30px',
+          marginLeft: '15px',
+        }}
         disabled={disabled}
       >
         +
