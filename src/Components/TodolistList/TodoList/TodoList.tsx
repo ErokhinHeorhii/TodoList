@@ -11,6 +11,8 @@ import { Task } from '../../TaskComponent/TaskComponent'
 import { getTaskTC, TaskDomainType } from '../../TaskComponent/tasks-reducers'
 import { TaskFilterType, TodolistDomainType } from '../todolists-reducers'
 
+import { FilterButton } from './FilterButton/FilterButton'
+
 type TodolistPropsType = {
   todolist: TodolistDomainType
   task: Array<TaskDomainType>
@@ -69,9 +71,7 @@ const Todolist = React.memo(({ demo = false, ...props }: TodolistPropsType) => {
 
   const changeTaskHandler = useCallback(
     (title: TaskFilterType) => {
-      return () => {
-        props.changeTask(props.todolist.id, title)
-      }
+      props.changeTask(props.todolist.id, title)
     },
     [props.changeTask, props.todolist.id]
   )
@@ -111,32 +111,27 @@ const Todolist = React.memo(({ demo = false, ...props }: TodolistPropsType) => {
       </div>
       <ul style={{ paddingLeft: '5px' }}>{tasksItems}</ul>
       <div style={{ paddingTop: '10px' }}>
-        <Button
-          onClick={changeTaskHandler('all')}
-          variant={props.todolist.filter === 'all' ? 'contained' : 'outlined'}
-          size={'small'}
-          color={'primary'}
-          style={{ marginRight: '10px' }}
+        <FilterButton
+          onClick={() => changeTaskHandler('all')}
+          buttonFilter={'all'}
+          selectedFilter={props.todolist.filter}
         >
           All
-        </Button>
-        <Button
-          onClick={changeTaskHandler('active')}
-          variant={props.todolist.filter === 'active' ? 'contained' : 'outlined'}
-          size={'small'}
-          color={'primary'}
-          style={{ marginRight: '10px' }}
+        </FilterButton>
+        <FilterButton
+          onClick={() => changeTaskHandler('active')}
+          buttonFilter={'active'}
+          selectedFilter={props.todolist.filter}
         >
           Active
-        </Button>
-        <Button
-          onClick={changeTaskHandler('completed')}
-          variant={props.todolist.filter === 'completed' ? 'contained' : 'outlined'}
-          size={'small'}
-          color={'primary'}
+        </FilterButton>
+        <FilterButton
+          onClick={() => changeTaskHandler('completed')}
+          buttonFilter={'completed'}
+          selectedFilter={props.todolist.filter}
         >
           Completed
-        </Button>
+        </FilterButton>
       </div>
     </div>
   )

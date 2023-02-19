@@ -13,10 +13,10 @@ import {
 } from '@mui/material'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
-import { ErrorSnackbar } from '../Components/ErrorSnackbar/ErrorSnackbar'
-import { TodolistsList } from '../Components/TodolistList/TodolistList'
+import ErrorSnackbar from '../Components/ErrorSnackbar'
+import TodolistsList from '../Components/TodolistList'
+import { Login } from '../features/Login'
 import { logoutTC } from '../features/Login/auth-reducers'
-import { Login } from '../features/Login/Login'
 import { selectIsLoggedIn } from '../features/Login/selectors'
 import { useAppDispatch, useAppSelector } from '../State/Store'
 

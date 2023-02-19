@@ -13,13 +13,11 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
 export function ErrorSnackbar() {
   const error = useAppSelector(state => state.app.error)
   const dispatch = useAppDispatch()
-  // const [open, setOpen] = useState(true)
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return
     }
-    // setOpen(false)
     dispatch(setAppErrorAC({ error: null }))
   }
 

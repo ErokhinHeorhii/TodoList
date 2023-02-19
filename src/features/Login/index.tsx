@@ -1,3 +1,4 @@
+import { Login } from './Login'
 import { selectIsLoggedIn } from './selectors'
 
-export default selectIsLoggedIn
+export { selectIsLoggedIn, Login }
