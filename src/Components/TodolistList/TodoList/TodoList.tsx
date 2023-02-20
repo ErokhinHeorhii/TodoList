@@ -12,16 +12,14 @@ import { getTaskTC, TaskDomainType } from '../../TaskComponent/tasks-reducers'
 import { TaskFilterType, TodolistDomainType } from '../todolists-reducers'
 
 import { FilterButton } from './FilterButton/FilterButton'
+import s from './TodoList.module.css'
 
 type TodolistPropsType = {
   todolist: TodolistDomainType
   task: Array<TaskDomainType>
-  removeTask: (todolistId: string, taskId: string) => void
   changeTask: (todolistID: string, buttonName: TaskFilterType) => void
   addTask: (todolistID: string, title: string) => void
-  changeStatus: (todolistID: string, taskId: string, status: TaskStatuses) => void
   deleteTodolist: (todolistID: string) => void
-  changeTaskTitle: (todolistID: string, taskId: string, title: string) => void
   changeTodolistTitle: (todolistID: string, title: string) => void
   demo?: boolean
 }
@@ -47,16 +45,7 @@ const Todolist = React.memo(({ demo = false, ...props }: TodolistPropsType) => {
 
   const tasksItems = props.task.length ? (
     taskForFilter.map(item => {
-      return (
-        <Task
-          key={item.id}
-          changeTaskTitle={props.changeTaskTitle}
-          itemTask={item}
-          removeTask={props.removeTask}
-          changeTaskStatus={props.changeStatus}
-          todolistID={props.todolist.id}
-        />
-      )
+      return <Task key={item.id} itemTask={item} todolistID={props.todolist.id} />
     })
   ) : (
     <div>No task there</div>
@@ -88,7 +77,7 @@ const Todolist = React.memo(({ demo = false, ...props }: TodolistPropsType) => {
 
   return (
     <div>
-      <h3 style={{ display: 'flex' }}>
+      <h3 className={s.wrapperTitle}>
         <EditableSpan value={props.todolist.title} changeTitle={changeTodoListTitle} />
         <Button
           onClick={onClickHandlerForTodoList}
@@ -97,7 +86,7 @@ const Todolist = React.memo(({ demo = false, ...props }: TodolistPropsType) => {
           style={{
             maxWidth: '60px',
             maxHeight: '30px',
-            minWidth: '06px',
+            minWidth: '60px',
             minHeight: '30px',
             marginLeft: '15px',
           }}
@@ -106,11 +95,14 @@ const Todolist = React.memo(({ demo = false, ...props }: TodolistPropsType) => {
           Del
         </Button>
       </h3>
-      <div>
+      <div className={s.wrapperAddItem}>
         <AddItemForm addItem={addTask} disabled={props.todolist.entityStatus === 'loading'} />
       </div>
-      <ul style={{ paddingLeft: '5px' }}>{tasksItems}</ul>
-      <div style={{ paddingTop: '10px' }}>
+      <ul style={{ padding: '10px 0 0 5px' }}>{tasksItems}</ul>
+      <div
+        className={s.wrapperButton}
+        style={{ paddingTop: '10px', margin: '0 auto', display: 'flex', justifyContent: 'center' }}
+      >
         <FilterButton
           onClick={() => changeTaskHandler('all')}
           buttonFilter={'all'}

@@ -4,37 +4,43 @@ import { Delete } from '@mui/icons-material'
 import { Checkbox, IconButton } from '@mui/material'
 
 import { TaskStatuses } from '../../api/todolist-api'
+import { useAppDispatch } from '../../State/Store'
 import EditableSpan from '../EditableSpan/EditableSpan'
 
 import s from './TaskComponent.module.css'
-import { TaskDomainType } from './tasks-reducers'
+import { deleteTaskTC, TaskDomainType, updateTaskTC } from './tasks-reducers'
 
 type TaskComponentType = {
   itemTask: TaskDomainType
   todolistID: string
-  removeTask: (taskId: string, todolistId: string) => void
-  changeTaskStatus: (todolistId: string, id: string, status: TaskStatuses) => void
-  changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
 }
 
 export const Task = React.memo((props: TaskComponentType) => {
+  const dispatch = useAppDispatch()
+
   const changeTaskTitle = useCallback(
     (title: string) => {
-      props.changeTaskTitle(props.todolistID, props.itemTask.id, title)
+      const todolistId = props.todolistID
+      const taskId = props.itemTask.id
+
+      dispatch(updateTaskTC({ todolistId, taskId, domainModel: { title } }))
     },
-    [props.changeTaskTitle, props.todolistID, props.itemTask.id]
+    [props.todolistID, props.itemTask.id]
   )
 
   const changeStatusCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
-    props.changeTaskStatus(
-      props.todolistID,
-      props.itemTask.id,
-      e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
-    )
+    const todolistId = props.todolistID
+    const taskId = props.itemTask.id
+    const status = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
+
+    dispatch(updateTaskTC({ todolistId, taskId, domainModel: { status } }))
   }
 
   const removeTaskHandler = () => {
-    props.removeTask(props.todolistID, props.itemTask.id)
+    const todolistId = props.todolistID
+    const taskId = props.itemTask.id
+
+    dispatch(deleteTaskTC({ todolistId, taskId }))
   }
 
   return (

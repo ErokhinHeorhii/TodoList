@@ -122,9 +122,9 @@ function App() {
     dispatchTodolists(deleteTodolistTC.fulfilled({ todolistId: todolistID }, ' ', todolistID))
   }
 
-  const removeTask = (todolistId: string, taskId: string) => {
-    dispatchTasks(deleteTaskTC.fulfilled({ todolistId, taskId }, ' ', { todolistId, taskId }))
-  }
+  // const removeTask = (todolistId: string, taskId: string) => {
+  //   dispatchTasks(deleteTaskTC.fulfilled({ todolistId, taskId }, ' ', { todolistId, taskId }))
+  // }
   const changeTask = (todolistID: string, buttonName: TaskFilterType) => {
     dispatchTodolists(changeTodolistFilterAC({ todolistId2: todolistID, newFilter: buttonName }))
   }
@@ -217,12 +217,12 @@ function App() {
                       todolist={item}
                       key={item.id}
                       task={taskForFilter}
-                      removeTask={removeTask}
+                      // removeTask={removeTask}
                       changeTask={changeTask}
                       addTask={addTask}
-                      changeStatus={changeStatus}
+                      // changeStatus={changeStatus}
                       deleteTodolist={deleteTodoList}
-                      changeTaskTitle={changeTaskTitle}
+                      // changeTaskTitle={changeTaskTitle}
                       changeTodolistTitle={changeTodoListTitle}
                     />
                   </Paper>

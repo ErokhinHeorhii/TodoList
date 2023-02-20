@@ -4,11 +4,14 @@ import { TextField } from '@mui/material'
 
 import { RequestStatusType } from '../../app/app-reducer'
 
+import s from './EditableSpan.module.css'
+
 type EditableSpanType = {
   value: string
   changeTitle: (newTitle: string) => void
   entityStatus?: RequestStatusType
 }
+
 const EditableSpan = React.memo((props: EditableSpanType) => {
   const [editMode, setEditMode] = useState<boolean>(false)
   const [title, setTitle] = useState<string>(props.value)
@@ -35,7 +38,7 @@ const EditableSpan = React.memo((props: EditableSpanType) => {
   }
 
   return (
-    <div>
+    <div style={{ width: '250px' }}>
       {/* eslint-disable-next-line no-nested-ternary */}
       {editMode ? (
         props.entityStatus !== 'loading' ? (
@@ -49,10 +52,14 @@ const EditableSpan = React.memo((props: EditableSpanType) => {
             autoFocus
           />
         ) : (
-          <span onDoubleClick={activateEditMode}>{props.value}</span>
+          <span onDoubleClick={activateEditMode} className={s.span}>
+            {props.value}
+          </span>
         )
       ) : (
-        <span onDoubleClick={activateEditMode}>{props.value}</span>
+        <span onDoubleClick={activateEditMode} className={s.span}>
+          {props.value}
+        </span>
       )}
     </div>
   )

@@ -4,11 +4,10 @@ import '../../app/App.css'
 import { Grid, Paper } from '@mui/material'
 import { Navigate } from 'react-router-dom'
 
-import { TaskStatuses } from '../../api/todolist-api'
 import { selectIsLoggedIn } from '../../features/Login'
 import { useAppDispatch, useAppSelector } from '../../State/Store'
 import AddItemForm from '../AddItemForm/AddItemForm'
-import { addTaskTC, deleteTaskTC, updateTaskTC } from '../TaskComponent/tasks-reducers'
+import { addTaskTC } from '../TaskComponent/tasks-reducers'
 
 import TodoList from './TodoList/TodoList'
 import {
@@ -44,13 +43,6 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
     [dispatch]
   )
 
-  const removeTask = useCallback(
-    (todolistId: string, taskId: string) => {
-      dispatch(deleteTaskTC({ todolistId, taskId }))
-    },
-    [dispatch]
-  )
-
   const changeTask = useCallback(
     (todolistID: string, buttonName: TaskFilterType) => {
       dispatch(changeTodolistFilterAC({ todolistId2: todolistID, newFilter: buttonName }))
@@ -70,20 +62,6 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
       let action = addTodolistTC(title)
 
       dispatch(action)
-    },
-    [dispatch]
-  )
-
-  const changeStatus = useCallback(
-    (todolistId: string, taskId: string, status: TaskStatuses) => {
-      dispatch(updateTaskTC({ todolistId, taskId, domainModel: { status } }))
-    },
-    [dispatch]
-  )
-
-  const changeTaskTitle = useCallback(
-    (todolistId: string, taskId: string, title: string) => {
-      dispatch(updateTaskTC({ todolistId, taskId, domainModel: { title } }))
     },
     [dispatch]
   )
@@ -111,17 +89,14 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
 
             return (
               <Grid item key={item.id}>
-                <Paper style={{ padding: '15px' }}>
+                <Paper style={{ padding: '15px' }} elevation={3}>
                   <TodoList
                     todolist={item}
                     key={item.id}
                     task={taskForFilter}
-                    removeTask={removeTask}
                     changeTask={changeTask}
                     addTask={addTask}
-                    changeStatus={changeStatus}
                     deleteTodolist={deleteTodoList}
-                    changeTaskTitle={changeTaskTitle}
                     changeTodolistTitle={changeTodoListTitle}
                     demo={demo}
                   />

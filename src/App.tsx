@@ -107,9 +107,9 @@ function App() {
     console.log('after t', tasks)
   }
 
-  const removeTask = (todolistId: string, taskId: string) => {
-    setTasks({ ...tasks, [todolistId]: tasks[todolistId].filter(item => item.id !== taskId) })
-  }
+  // const removeTask = (todolistId: string, taskId: string) => {
+  //   setTasks({ ...tasks, [todolistId]: tasks[todolistId].filter(item => item.id !== taskId) })
+  // }
 
   const changeTask = (todolistID: string, value: TaskFilterType) => {
     let todolist = todolists.find(item => item.id === todolistID)
@@ -185,24 +185,24 @@ function App() {
     })
   }
 
-  const changeStatus = (todolistID: string, taskId: string, status: TaskStatuses) => {
-    // setTask(task.map(item=>item.id !== taskId ? item : {...item, isDone}))
-    setTasks({
-      ...tasks,
-      [todolistID]: tasks[todolistID].map(item =>
-        item.id === taskId ? { ...item, status } : item
-      ),
-    })
-  }
+  // const changeStatus = (todolistID: string, taskId: string, status: TaskStatuses) => {
+  //   // setTask(task.map(item=>item.id !== taskId ? item : {...item, isDone}))
+  //   setTasks({
+  //     ...tasks,
+  //     [todolistID]: tasks[todolistID].map(item =>
+  //       item.id === taskId ? { ...item, status } : item
+  //     ),
+  //   })
+  // }
 
-  const changeTaskTitle = (todolistsID: string, taskId: string, title: string) => {
-    setTasks({
-      ...tasks,
-      [todolistsID]: tasks[todolistsID].map(item =>
-        item.id === taskId ? { ...item, title } : item
-      ),
-    })
-  }
+  // const changeTaskTitle = (todolistsID: string, taskId: string, title: string) => {
+  //   setTasks({
+  //     ...tasks,
+  //     [todolistsID]: tasks[todolistsID].map(item =>
+  //       item.id === taskId ? { ...item, title } : item
+  //     ),
+  //   })
+  // }
 
   const changeTodoListTitle = (todolistID: string, title: string) => {
     setTodolists(todolists.map(item => (item.id === todolistID ? { ...item, title } : item)))
@@ -241,14 +241,14 @@ function App() {
                       // title={item.title}
                       key={item.id}
                       task={taskForFilter}
-                      removeTask={removeTask}
+                      // removeTask={removeTask}
                       changeTask={changeTask}
                       addTask={addTask}
-                      changeStatus={changeStatus}
+                      // changeStatus={changeStatus}
                       // filter={item.filter}
                       // todolistID={item.id}
                       deleteTodolist={deleteTodoList}
-                      changeTaskTitle={changeTaskTitle}
+                      // changeTaskTitle={changeTaskTitle}
                       changeTodolistTitle={changeTodoListTitle}
                     />
                   </Paper>
