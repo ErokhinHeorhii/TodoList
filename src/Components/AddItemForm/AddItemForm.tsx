@@ -54,7 +54,7 @@ const AddItemForm = React.memo(({ disabled = false, ...props }: AddItemFormType)
           variant="outlined"
           error={!!error}
           disabled={disabled}
-          style={{ display: 'inline' }}
+          style={{ display: 'inline', width: '250px' }}
         />
         <Button
           variant="outlined"

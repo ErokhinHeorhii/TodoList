@@ -13,8 +13,9 @@ import {
 } from '@mui/material'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
+import img from '../assets/img/img.jpg'
 import ErrorSnackbar from '../Components/ErrorSnackbar'
-import TodolistsList from '../Components/TodolistList'
+import { TodolistsList } from '../Components/TodolistList'
 import { Login } from '../features/Login'
 import { logoutTC } from '../features/Login/auth-reducers'
 import { selectIsLoggedIn } from '../features/Login/selectors'
@@ -52,7 +53,14 @@ function App({ demo = false }: PropsType) {
   }
 
   return (
-    <div className="App">
+    <div
+      className="App"
+      style={{
+        backgroundImage: `url(${img})`,
+        backgroundRepeat: 'repeat-y',
+        backgroundSize: '100%',
+      }}
+    >
       {error && <ErrorSnackbar />}
       <AppBar position="static">
         <Toolbar>
@@ -70,7 +78,7 @@ function App({ demo = false }: PropsType) {
         </Toolbar>
         {status === 'loading' && <LinearProgress />}
       </AppBar>
-      <Container fixed>
+      <Container>
         <Routes>
           <Route path="/" element={<TodolistsList demo={demo} />} />
           <Route path="/login" element={<Login />} />

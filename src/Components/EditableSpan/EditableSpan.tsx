@@ -38,7 +38,7 @@ const EditableSpan = React.memo((props: EditableSpanType) => {
   }
 
   return (
-    <div style={{ width: '250px' }}>
+    <div style={{ width: '195px' }}>
       {/* eslint-disable-next-line no-nested-ternary */}
       {editMode ? (
         props.entityStatus !== 'loading' ? (

@@ -79,32 +79,30 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
 
   return (
     <div>
-      <Grid container style={{ padding: '20px' }}>
+      <Paper style={{ padding: '15px', width: '17rem', margin: '2rem auto' }}>
         <AddItemForm addItem={addTodoList} />
-      </Grid>
-      <Grid container>
-        <Grid container spacing={3}>
-          {todolists.map(item => {
-            let taskForFilter = tasks[item.id]
+      </Paper>
+      <Grid container spacing={3} style={{ margin: '0 auto', width: '100%' }}>
+        {todolists.map(item => {
+          let taskForFilter = tasks[item.id]
 
-            return (
-              <Grid item key={item.id}>
-                <Paper style={{ padding: '15px' }} elevation={3}>
-                  <TodoList
-                    todolist={item}
-                    key={item.id}
-                    task={taskForFilter}
-                    changeTask={changeTask}
-                    addTask={addTask}
-                    deleteTodolist={deleteTodoList}
-                    changeTodolistTitle={changeTodoListTitle}
-                    demo={demo}
-                  />
-                </Paper>
-              </Grid>
-            )
-          })}
-        </Grid>
+          return (
+            <Grid item key={item.id}>
+              <Paper style={{ padding: '15px', width: '280px', marginLeft: '30px' }} elevation={3}>
+                <TodoList
+                  todolist={item}
+                  key={item.id}
+                  task={taskForFilter}
+                  changeTask={changeTask}
+                  addTask={addTask}
+                  deleteTodolist={deleteTodoList}
+                  changeTodolistTitle={changeTodoListTitle}
+                  demo={demo}
+                />
+              </Paper>
+            </Grid>
+          )
+        })}
       </Grid>
     </div>
   )

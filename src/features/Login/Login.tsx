@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { Paper } from '@mui/material'
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import FormControl from '@mui/material/FormControl'
@@ -69,50 +70,52 @@ export const Login = () => {
   return (
     <Grid container justifyContent={'center'}>
       <Grid item justifyContent={'center'}>
-        <form onSubmit={formik.handleSubmit}>
-          <FormControl>
-            <FormLabel>
-              <p>
-                To log in get registered
-                <a
-                  href={'https://social-network.samuraijs.com/'}
-                  target={'_blank'}
-                  rel="noreferrer"
-                >
-                  {' '}
-                  here
-                </a>
-              </p>
-              <p>or use common test account credentials:</p>
-              <p>Email: free@samuraijs.com</p>
-              <p>Password: free</p>
-            </FormLabel>
-            <FormGroup>
-              <TextField label="Email" margin="normal" {...formik.getFieldProps('email')} />
-              {formik.errors.email && formik.touched.email ? (
-                <div style={{ color: 'red' }}>{formik.errors.email}</div>
-              ) : null}
-              <TextField
-                type="password"
-                label="Password"
-                margin="normal"
-                {...formik.getFieldProps('password')}
-              />
-              {formik.errors.password && formik.touched.password ? (
-                <div style={{ color: 'red' }}>{formik.errors.password}</div>
-              ) : null}
-              <FormControlLabel
-                label={'Remember me'}
-                control={<Checkbox />}
-                {...formik.getFieldProps('rememberMe')}
-                checked={formik.values.rememberMe}
-              />
-              <Button type={'submit'} variant={'contained'} color={'primary'}>
-                Login
-              </Button>
-            </FormGroup>
-          </FormControl>
-        </form>
+        <Paper style={{ padding: '25px', width: '18rem', margin: '35% auto' }}>
+          <form onSubmit={formik.handleSubmit}>
+            <FormControl>
+              <FormLabel>
+                <p>
+                  To log in get registered
+                  <a
+                    href={'https://social-network.samuraijs.com/'}
+                    target={'_blank'}
+                    rel="noreferrer"
+                  >
+                    {' '}
+                    here
+                  </a>
+                </p>
+                <p>or use common test account credentials:</p>
+                <p>Email: free@samuraijs.com</p>
+                <p>Password: free</p>
+              </FormLabel>
+              <FormGroup>
+                <TextField label="Email" margin="normal" {...formik.getFieldProps('email')} />
+                {formik.errors.email && formik.touched.email ? (
+                  <div style={{ color: 'red' }}>{formik.errors.email}</div>
+                ) : null}
+                <TextField
+                  type="password"
+                  label="Password"
+                  margin="normal"
+                  {...formik.getFieldProps('password')}
+                />
+                {formik.errors.password && formik.touched.password ? (
+                  <div style={{ color: 'red' }}>{formik.errors.password}</div>
+                ) : null}
+                <FormControlLabel
+                  label={'Remember me'}
+                  control={<Checkbox />}
+                  {...formik.getFieldProps('rememberMe')}
+                  checked={formik.values.rememberMe}
+                />
+                <Button type={'submit'} variant={'contained'} color={'primary'}>
+                  Login
+                </Button>
+              </FormGroup>
+            </FormControl>
+          </form>
+        </Paper>
       </Grid>
     </Grid>
   )

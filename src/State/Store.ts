@@ -4,9 +4,9 @@ import { AnyAction, combineReducers } from 'redux'
 import thunkMiddleware, { ThunkAction, ThunkDispatch } from 'redux-thunk'
 
 import { appReducer } from '../app/app-reducer'
-import { tasksReducer } from '../Components/TaskComponent/tasks-reducers'
-import { todolistsReducer } from '../Components/TodolistList/todolists-reducers'
-import { authReducer } from '../features/Login/auth-reducers'
+import { tasksReducer } from '../Components/TaskComponent'
+import { todolistsReducer } from '../Components/TodolistList'
+import { authReducer } from '../features/Login'
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,
