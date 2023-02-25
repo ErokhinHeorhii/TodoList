@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 
 import './App.css'
+import AssignmentIcon from '@mui/icons-material/Assignment'
 import {
   AppBar,
   Button,
@@ -64,7 +65,9 @@ function App({ demo = false }: PropsType) {
       {error && <ErrorSnackbar />}
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu"></IconButton>
+          <IconButton edge="start" color="inherit" aria-label="menu">
+            <AssignmentIcon />
+          </IconButton>
           <Typography variant="h6">TodoList</Typography>
           {isLoggedIn && (
             <Button
