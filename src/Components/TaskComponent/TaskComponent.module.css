@@ -1,0 +1,9 @@
+.isDone {
+  font-weight: bold;
+  text-decoration: line-through;
+}
+.li {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
