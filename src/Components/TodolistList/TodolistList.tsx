@@ -33,7 +33,9 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
     if (demo || !isLoggedIn) {
       return
     }
-    dispatch(getTodolistTC())
+    if (todolists.length === 0) {
+      dispatch(getTodolistTC())
+    }
   }, [])
 
   const deleteTodoList = useCallback(

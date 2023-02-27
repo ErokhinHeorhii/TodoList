@@ -31,7 +31,9 @@ const Todolist = React.memo(({ demo = false, ...props }: TodolistPropsType) => {
     if (demo) {
       return
     }
-    dispatch(getTaskTC(props.todolist.id))
+    if (props.task.length === 0) {
+      dispatch(getTaskTC(props.todolist.id))
+    }
   }, [])
 
   let taskForFilter = props.task

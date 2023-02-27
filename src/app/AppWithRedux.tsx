@@ -17,9 +17,8 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import img from '../assets/img/img.jpg'
 import ErrorSnackbar from '../Components/ErrorSnackbar'
 import { TodolistsList } from '../Components/TodolistList'
-import { Login } from '../features/Login'
+import { Login, selectIsLoggedIn } from '../features/Login'
 import { logoutTC } from '../features/Login/auth-reducers'
-import { selectIsLoggedIn } from '../features/Login/selectors'
 import { useAppDispatch, useAppSelector } from '../State/Store'
 
 import { initializeTC } from './app-reducer'
@@ -38,9 +37,10 @@ function App({ demo = false }: PropsType) {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(initializeTC())
+    if (!isLoggedIn) {
+      dispatch(initializeTC())
+    }
   }, [])
-
   const onClickHandlerLogOut = useCallback(() => {
     dispatch(logoutTC())
   }, [])
