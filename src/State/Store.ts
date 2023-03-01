@@ -1,19 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { AnyAction, combineReducers } from 'redux'
+import { AnyAction } from 'redux'
 import thunkMiddleware, { ThunkAction, ThunkDispatch } from 'redux-thunk'
 
-import { appReducer } from '../app/app-reducer'
-import { tasksReducer } from '../Components/TaskComponent'
-import { todolistsReducer } from '../Components/TodolistList'
-import { authReducer } from '../features/Login'
-
-const rootReducer = combineReducers({
-  tasks: tasksReducer,
-  todolists: todolistsReducer,
-  app: appReducer,
-  auth: authReducer,
-})
+import { rootReducer } from './reducers'
 
 // export const store = legacy_createStore(rootReducer, applyMiddleware(thunkMiddleware))
 export const store = configureStore({
@@ -33,6 +23,10 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 export type AppDispatchType = typeof store.dispatch
 export const useAppDispatch = () => useDispatch<AppDispatchType>()
+
+if (process.env.NODE_ENV !== 'development' && module.hot) {
+  module.hot.accept('./reducers', () => store.replaceReducer(rootReducer))
+}
 
 //@ts-ignore
 window.store = store
