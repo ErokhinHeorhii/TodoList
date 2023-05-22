@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 
-import AppWithRedax from './app/AppWithRedux'
+import { AppWithRedux } from './app/AppWithRedux'
 import * as serviceWorker from './serviceWorker'
 import { store } from './State/Store'
 
@@ -13,7 +13,7 @@ export const rerenderEntireTree = () => {
   ReactDOM.render(
     <HashRouter>
       <Provider store={store}>
-        <AppWithRedax />
+        <AppWithRedux />
       </Provider>
     </HashRouter>,
     document.getElementById('root')
