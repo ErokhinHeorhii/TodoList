@@ -29,7 +29,7 @@ type PropsType = {
   demo?: boolean
 }
 
-function App({ demo = false }: PropsType) {
+export function AppWithRedux({ demo = false }: PropsType) {
   const initialized = useAppSelector(appSelectors.selectIsInitialized)
   const status = useAppSelector(appSelectors.selectStatus)
   const error = useAppSelector(appSelectors.selectErrorApp)
@@ -92,5 +92,3 @@ function App({ demo = false }: PropsType) {
     </div>
   )
 }
-
-export default App

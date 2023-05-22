@@ -1,20 +1,21 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent } from 'react'
 
 import { TextField } from '@mui/material'
 
 import { RequestStatusType } from '../../app/app-reducer'
 
 import s from './EditableSpan.module.css'
+import { useEditableSpan } from './hooks/useEditableSpan'
 
-type EditableSpanType = {
+export type EditableSpanType = {
   value: string
   changeTitle: (newTitle: string) => void
   entityStatus?: RequestStatusType
 }
 
 const EditableSpan = React.memo((props: EditableSpanType) => {
-  const [editMode, setEditMode] = useState<boolean>(false)
-  const [title, setTitle] = useState<string>(props.value)
+  const { editMode, setEditMode, activateViewMode, activateEditMode, title, setTitle } =
+    useEditableSpan(props)
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.currentTarget.value)
@@ -25,16 +26,6 @@ const EditableSpan = React.memo((props: EditableSpanType) => {
       props.changeTitle(title)
       setEditMode(false)
     }
-  }
-
-  const activateEditMode = () => {
-    setEditMode(true)
-    setTitle(props.value)
-  }
-
-  const activateViewMode = () => {
-    props.changeTitle(title)
-    setEditMode(false)
   }
 
   return (

@@ -1,8 +1,9 @@
-import React, { ChangeEvent, useState } from 'react'
+import React from 'react'
 
 import { Button, TextField } from '@mui/material'
 
 import s from './AddItemForm.module.css'
+import { useAddItemForm } from './hooks/useAddItemForm'
 
 type AddItemFormType = {
   addItem: (title: string) => void
@@ -10,37 +11,13 @@ type AddItemFormType = {
 }
 
 const AddItemForm = React.memo(({ disabled = false, ...props }: AddItemFormType) => {
-  const [title, setTitle] = useState<string>(' ')
-  const [error, setError] = useState<boolean>(false)
-
-  const addTask = () => {
-    const trimTitle = title.trim()
-
-    if (trimTitle) {
-      props.addItem(trimTitle)
-    } else {
-      setError(true)
-    }
-    setTitle(' ')
-  }
+  const { error, title, onChangeHandler, onKeDownHandler, addTask } = useAddItemForm(props.addItem)
 
   const userMessage = error ? (
     <div style={{ color: 'red' }}>Title is requared! </div>
   ) : (
     <div className={s.title}>Please, create this</div>
   )
-
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (error) {
-      setError(!error)
-    }
-    setTitle(e.currentTarget.value)
-  }
-  const onKeDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      addTask()
-    }
-  }
 
   return (
     <div className={s.wrapper}>
