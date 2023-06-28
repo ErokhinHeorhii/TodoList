@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Demo:
 
-[![demo](https://img.shields.io/badge/-demo-brightgreen?style=for-the-badge&logo=github)](https://Geo070684.github.io/TodoList/)
+[![demo](https://img.shields.io/badge/-demo-brightgreen?style=for-the-badge&logo=github)](https://ErokhinHeorhii.github.io/TodoList/)
 
 ## Available Scripts
 
